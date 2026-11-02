@@ -1,0 +1,131 @@
+-- REGOLE --
+Il killer verrà deciso a gara in corso dopo 2 settimane di gioco, i giocatori dovranno risolvere gli indovinelli dove gradualmente svelerò i moventi di ogni personaggio.
+Azione chiamata della polizia: chiunque potrà chiamare la Polizia 1 sola volta durante tutta la partita per fare arrestare l'indiziato, qualora le prove fossero schiaccianti il caso è chiuso, Il giocatore non può limitarsi a dare un nome, ma deve presentare la sua ricostruzione esatta: Movente + Arma/Metodo + Opportunità.
+Altrimenti si diventa il primo indiziato.
+La Penalità: Se l'accusa è debole o sbagliata, pubblicherai una Storia (o un post) in cui la Polizia annuncia che chi ha chiamato ha fornito prove false per depistare le indagini. Da quel momento, gli enigmi successivi riveleranno dettagli compromettenti proprio su quel giocatore.
+
+
+---BACKSTORY---
+
+### L'Antefatto: L'Ultima Notte in Archivio
+
+La Biblioteca Storica dell'Ateneo chiude le porte al pubblico alle 20:00 in punto. Per i ricercatori e gli archivisti, tuttavia, il lavoro tra i corridoi bui continua spesso fino a notte fonda.
+
+Il Professor Enea Corsini, responsabile della sezione Manoscritti e Registri Antichi, era noto per il suo carattere schivo e per quelle lunghe ore solitarie. Da settimane si comportava in modo paranoico. Aveva smesso di rispondere alle e-mail, si guardava continuamente le spalle e stava lavorando a un progetto di ricerca non autorizzato, consultando documenti sigillati risalenti agli anni di fondazione dell'università. Ai pochi colleghi con cui ancora parlava, aveva sussurrato di essere a un passo da una "verità molto scomoda" riguardante i fondi dell'Ateneo.
+
+Ieri mattina, alle 06:30, il personale delle pulizie ha trovato la pesante porta in rovere dell'archivio semichiusa. All'interno, il silenzio era rotto solo dal ronzio difettoso di un neon.
+
+Corsini è stato rinvenuto a terra, esanime, nel corridoio C-4. Intorno a lui, fascicoli sparsi e vecchie planimetrie rovesciate. Non ci sono segni di effrazione, la serratura elettronica non è stata forzata e, apparentemente, non c'è alcuna arma del delitto visibile. Sembra un malore improvviso, ma il medico legale ha richiesto un esame tossicologico d'urgenza.
+
+C'è solo un dettaglio che non quadra agli occhi della scientifica: la scrivania del professore. Illuminato dalla luce gialla di una lampada da lettura, giace un pesante tomo aperto in modo innaturale. E proprio lì, appoggiato sulle pagine, è stato ritrovato un pezzo di carta strappato frettolosamente. Contiene un ultimo, criptico messaggio che Corsini è riuscito a scarabocchiare prima di tacere per sempre.
+
+
+-- FINALE --
+
+### L'Anno Zero: L'Omicidio (Autunno 1994)
+
+Tutto ha inizio trent'anni fa. Enea Corsini è un giovane e ambizioso dottorando, ossessionato dall'idea di ottenere l'unica cattedra disponibile per diventare ricercatore di ruolo. Ma c'è un problema insormontabile: **Valerio Monti**.
+Valerio è il suo migliore amico, ma è anche brillante, carismatico e il pupillo del vecchio direttore dell'Ateneo. Tutti sanno che la cattedra sarà sua.
+
+* **La Scoperta:** Una notte di novembre, Valerio chiama Enea nel seminterrato dell'Archivio Storico (l'Ala Ovest, all'epoca un labirinto di scaffalature pericolanti in attesa di restauro). Valerio ha appena fatto una scoperta sensazionale: un manoscritto perduto che riscriverà la storia dell'Ateneo. Quella scoperta gli garantirà la cattedra e la gloria accademica assoluta.
+* **Il Delitto:** Accecato dall'invidia e dal panico di veder sfumare il suo futuro, Corsini ha un alterco con l'amico in cima a una vecchia scala a chiocciola di ferro. La discussione degenera. Corsini spinge Valerio, che precipita nel vuoto sbattendo violentemente la testa sul pavimento di marmo.
+* **L'Insabbiamento:** Invece di chiamare i soccorsi, Corsini guarda l'amico esalare l'ultimo respiro. Poi compie il gesto che cambierà la sua vita: ruba il manoscritto dalle mani di Valerio, ripulisce le proprie tracce e se ne va. Il giorno dopo, la morte di Valerio viene archiviata come un tragico, sfortunato incidente notturno.
+
+L'anno successivo, Corsini pubblica la ricerca spacciandola per sua, ottiene la cattedra, i fondi e inizia la sua intoccabile carriera. Ma per trent'anni, convive con il terrore di essere scoperto, conservando un "trofeo" maledetto: **la penna stilografica di Valerio, sporca di sangue essiccato, nascosta in un doppiofondo della sua scrivania**.
+
+---
+
+### Il Presente: L'Incubo del Ricatto
+
+Il passato rimane sepolto fino a poche settimane prima del gioco, quando uno dei cinque sospettati (il vero *villain* del tuo caso) sta frugando nell'ufficio di Corsini in cerca di prove per i propri scopi (es. lo studente per la tesi, l'assistente per rubare). Frugando, trova per caso il doppiofondo. Oltre alla penna, trova il diario privato degli anni '90 in cui Corsini, logorato dal senso di colpa, aveva confessato per iscritto il suo crimine, senza mai trovare il coraggio di distruggerlo.
+
+Il colpevole capisce di avere in mano un'arma letale e inizia il ricatto psicologico.
+
+* **Lo Pseudonimo:** Il ricattatore crea un indirizzo email criptato e si firma con il nome **"Caronte"** (il traghettatore dei morti, a simboleggiare qualcuno che viene a reclamare un'anima dal passato).
+* **L'Escalation delle Mail:**
+1. *La prima mail* contiene solo un allegato: la foto della penna insanguinata affiancata al diario degli anni '90. Oggetto: "Mi ricordo di Valerio, ero lì quella notte quando lo hai spinto" mentendo palesemente.
+2. *Le mail successive* diventano richieste folli. Caronte non vuole solo soldi. Vuole che Corsini si dimetta pubblicamente con disonore e ammetta di essere una frode, distruggendo l'unica cosa per cui ha ucciso: la sua reputazione.
+
+
+* **Il Crollo e il Suicidio:** Messo all'angolo, terrorizzato dall'idea di finire in carcere e di essere ricordato come un mostro, Corsini cede. La notte della sua morte, si prepara un thermos di caffè corretto con del cianuro rubato dal laboratorio di chimica. Invia un'ultima mail a Caronte scrivendo: *"Hai vinto tu. Ma non ti darò la soddisfazione di vedermi in manette."* Poi beve, si accascia sulla scrivania e muore.
+
+---
+
+### La Dinamica di Gioco (L'Enigma Finale)
+
+Quando i tuoi giocatori, nelle ultime fasi, riusciranno ad hackerare il PC di Corsini (superando la schermata di blocco), non troveranno prove di un assassino fisico. Troveranno la cartella segreta "Caronte", contenente tutta questa cronologia di mail, inclusa l'ultima, straziante lettera di dimissioni e suicidio.
+
+Capiranno in quell'esatto momento che la caccia non è all'uomo che ha avvelenato Corsini, ma al mostro freddo e calcolatore che lo ha spinto a farlo sfruttando un segreto di trent'anni prima.
+
+
+(crea due indirizzi e-mail con le mail scambiate tra i due e dai la password a tutti i partecipanti così possono leggerle).
+
+
+-- OGGETTI --
+
+Il Registro Elettronico degli Ingressi: Un file corrotto da ripristinare. Una volta decodificato, mostra che la notte del delitto un badge specifico è stato strisciato due volte di seguito, suggerendo che qualcuno sia entrato insieme al professore o abbia rubato il suo pass.
+
+Un Mazzo di Chiavi Clandestino: Trovato incastrato dietro uno scaffale. Rivela l'esistenza di un passaggio secondario per entrare in archivio sfuggendo alle telecamere principali. -> Alfredo ?
+
+-- PERSONAGGI --
+
+### 1. Alfredo - L'Assistente Sfruttato
+
+* **Profilo Psicologico e Backstory:** Sei arrivato in città con una borsa di studio ridicola e il sogno di fare carriera accademica. Corsini ti aveva promesso che, facendogli da assistente, ti avrebbe spianato la strada. Invece, ti ha trasformato nel suo schiavo personale: ti fa fare le fotocopie, tradurre testi fino alle tre di notte e persino andargli a prendere la tintoria. Sei frustrato, perennemente stanco e con l'estratto conto in rosso. L'ambiente accademico ti ha disilluso, facendoti capire che senza soldi o raccomandazioni non si va da nessuna parte.
+* **Ruolo Pubblico:** Sei il braccio destro del Professor Corsini. Tutti sanno che vivi in archivio, fai il lavoro sporco per lui e vieni pagato una miseria. Sei considerato un lavoratore instancabile e fedele.
+* **Il Tuo Segreto (Il Movente):** Da sei mesi, per pagarti l'affitto e le tasse, stai rubando e vendendo al mercato nero delle pergamene minori non ancora catalogate. Pensavi che nessuno se ne accorgesse, ma tre giorni fa Corsini ha trovato delle discrepanze nei registri e ti ha messo alle strette. Ti ha dato 48 ore per restituire tutto o avrebbe chiamato la polizia.
+* **Il Tuo Alibi:** Dici di essere uscito dall'archivio alle 19:30 per andare a bere una birra al pub vicino all'università, da solo.
+* **Il Tuo Obiettivo:** Evitare che le indagini portino al mercato nero e ai registri falsificati. Devi far sembrare che l'omicidio sia legato ad altre questioni dell'Ateneo.
+
+---
+
+### 2. Lorenzo - Il Ricercatore Rivale
+
+* **Profilo Psicologico e Backstory:** Sei considerato l'ex *enfant prodige* dell'Ateneo, ma la pressione del "pubblica o muori" ti sta schiacciando. È da anni che non produci nulla di rilevante e i fondi per il tuo dipartimento rischiavano di essere tagliati. Sei arrogante per mascherare una profonda sindrome dell'impostore. Odiavi Corsini per la sua spocchia e per il modo in cui ti guardava dall'alto in basso, considerandoti solo un "ragazzino presuntuoso".
+* **Ruolo Pubblico:** Sei una stella nascente del dipartimento. Hai appena annunciato la pubblicazione di un saggio rivoluzionario sulla storia dell'Ateneo, che ti garantirà fondi e prestigio. Tra te e Corsini c'era una nota antipatia, ma niente di più.
+* **Il Tuo Segreto (Il Movente):** Il tuo saggio rivoluzionario è un plagio totale. Hai rubato gli appunti di una ricerca abbandonata di Corsini di vent'anni fa. Il professore se n'è accorto la settimana scorsa leggendo una bozza rubata dalla tua scrivania. Aveva preparato una lettera per la Commissione Etica: se l'avesse spedita, la tua carriera accademica sarebbe finita per sempre.
+* **Il Tuo Alibi:** Dici di essere rimasto nel tuo ufficio al terzo piano fino a mezzanotte a correggere le bozze del libro, senza mai scendere in archivio.
+* **Il Tuo Obiettivo:** Assicurarti che nessuno trovi la lettera di denuncia che Corsini teneva nel suo ufficio.
+
+---
+
+### 3. Beatrice - La Direttrice della Biblioteca
+
+* **Profilo Psicologico e Backstory:** Appari come una donna di ferro, glaciale e calcolatrice. Provieni da una famiglia della borghesia cittadina e l'apparenza per te è tutto. Tuttavia, il tuo divorzio recente ti ha lasciata emotivamente svuotata e hai trovato rifugio nel gioco d'azzardo online e nei casinò clandestini. Quella che era iniziata come una valvola di sfogo è diventata una voragine finanziaria. Devi soldi a persone molto poco raccomandabili e l'Ateneo era l'unico bancomat a tua disposizione.
+* **Ruolo Pubblico:** Sei il capo assoluto della struttura. Elegante, severa, irreprensibile. Sei tu che gestisci i fondi per il restauro e l'acquisto di nuovi volumi.
+* **Il Tuo Segreto (Il Movente):** Hai un serio problema di dipendenza dal gioco d'azzardo e hai accumulato debiti spaventosi. Per coprirli, hai sottratto decine di migliaia di euro dai fondi della biblioteca, falsificando le fatture dei restauri. Corsini, spulciando i vecchi registri, si è imbattuto nelle tue anomalie contabili e aveva minacciato di consegnare i libri mastri alla Guardia di Finanza.
+* **Il Tuo Alibi:** Sostieni di essere andata a casa alle 18:00 in punto, come confermato dal tuo badge timbrato all'uscita principale.
+* **Il Tuo Obiettivo:** Devi deviare i sospetti verso le dinamiche tra professori e studenti, tenendo i conti e i registri fuori dall'indagine.
+
+---
+
+### 4. Filippo - Lo Studente Fuori Corso
+
+* **Profilo Psicologico e Backstory:** La tua famiglia ti finanzia gli studi da dieci anni e ha minacciato di tagliarti i fondi e farti andare a lavorare se non ti laurei entro questa sessione. Hai passato l'ultimo decennio a fare feste, rimandare esami e vivere la bella vita universitaria, ma ora sei con le spalle al muro. Sei un maestro nell'arte di arrangiarti e nel mentire ai tuoi genitori, ma l'idea di scrivere una tesi in latino da zero ti faceva venire gli attacchi di panico.
+* **Ruolo Pubblico:** Sei all'università da così tanti anni che sei considerato parte dell'arredamento. Finalmente, però, hai annunciato di aver concluso la tua tesi magistrale, un lavoro brillante basato su fonti latine, e sei a un passo dalla laurea.
+* **Il Tuo Segreto (Il Movente):** La tua tesi è una frode. Hai trovato in un cassetto dimenticato dell'archivio un vecchio manoscritto in latino mai pubblicato di uno studente degli anni '50. Lo hai tradotto e lo stai spacciando per tuo. Corsini, che ha una memoria enciclopedica per l'archivio, ha riconosciuto il testo esatto. Ti ha convocato nel suo ufficio per la mattina seguente: ti avrebbe fatto espellere con disonore.
+* **Il Tuo Alibi:** Dici di aver partecipato a una festa studentesca dall'altra parte della città, perdendo la cognizione del tempo.
+* **Il Tuo Obiettivo:** Impedire che gli altri trovino il manoscritto originale anni '50 che Corsini aveva recuperato per incastrarti.
+
+---
+
+### 5. Umberto - Il Rettore dell'Ateneo
+
+* **Profilo Psicologico e Backstory:** Sei a un paio d'anni dalla pensione e il tuo unico obiettivo è lasciare il tuo clan familiare sistemato a vita. Sei un uomo di potere, abituato a sorridere davanti alle telecamere e a stringere accordi loschi a porte chiuse. Per te l'Università è un'azienda e i professori sono solo pedine. Disprezzavi Corsini perché non si piegava alle tue regole politiche e faceva troppe domande. Sei abituato a comprare il silenzio di tutti, ma Corsini era l'unico osso che non riuscivi a corrompere.
+* **Ruolo Pubblico:** Sei la massima autorità dell'università. Un politico nato, abile a gestire i fondi e l'immagine pubblica dell'Ateneo.
+* **Il Tuo Segreto (Il Movente):** Hai truccato l'ultimo concorso pubblico per assegnare una cattedra prestigiosissima (e molto ben pagata) a tuo nipote, un inetto totale. Avevi promesso quella stessa cattedra a Corsini per tenerlo buono, ma poi lo hai tradito. Corsini non l'ha presa bene e ha raccolto le prove del concorso truccato. Minacciava uno scandalo mediatico che ti avrebbe fatto finire in prigione per corruzione.
+* **Il Tuo Alibi:** Dici di aver passato la serata a una cena di gala per i finanziatori dell'università, ma ti sei assentato "per qualche telefonata privata" tra le 22:00 e le 23:00.
+* **Il Tuo Obiettivo:** Screditare Corsini facendolo passare per un pazzo paranoico e insabbiare qualsiasi documento ufficiale.
+
+
+###6. Giacomo - Il Professore di Chimica (L'Amico Storico)
+
+Profilo Psicologico e Backstory: Tu ed Enea Corsini vi conoscete dai tempi dell'università, eravate inseparabili e giocavate a scacchi ogni giovedì sera nel suo ufficio. Pubblicamente sei un accademico rispettato, pacato e rassicurante. Tuttavia, il tuo dipartimento di Scienze sta affrontando pesanti tagli e la tua ultima ricerca si è rivelata un fallimento disastroso. Per salvare la faccia e il tuo laboratorio, hai fatto qualcosa di imperdonabile ai danni del tuo migliore amico.
+
+Ruolo Pubblico: Sei il Direttore del Dipartimento di Chimica e il più vecchio amico della vittima. Tutti sanno che sei l'unica persona di cui Corsini si fidava ciecamente in un ateneo pieno di arrivisti.
+
+Il Tuo Segreto (Il Movente): Da un anno stai dirottando segretamente i fondi destinati all'Archivio Storico di Corsini per finanziare le tue ricerche in chimica, falsificando le firme dell'amico sui moduli bancari dell'Ateneo. Corsini se n'è accorto proprio la settimana scorsa. La discussione tra voi, a porte chiuse, è stata violenta: Enea ti ha accusato di aver tradito un'amicizia di trent'anni e ti ha dato un ultimatum per far riapparire i soldi, pena la denuncia e la radiazione.
+
+Il Tuo Alibi: Dici di aver passato la serata da solo nel tuo laboratorio per fare un inventario semestrale dei reagenti tossici.
+
+Il Tuo Obiettivo: Nascondere le falsificazioni bancarie e giustificare la sparizione del cianuro dal tuo armadietto blindato facendola passare per una grave ma innocente negligenza di un tuo tesista.
