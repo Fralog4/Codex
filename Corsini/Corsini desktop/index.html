@@ -45,6 +45,7 @@
       padding: 0;
       width: 100%;
       height: 100%;
+      height: 100dvh;
       overflow: hidden;
       font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
       font-size: 11px;
@@ -64,11 +65,13 @@
       left: 0;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       background-color: #008080;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9990;
+      padding: 10px;
     }
 
     .login-window {
@@ -125,6 +128,7 @@
       position: relative;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       background-color: #008080;
       overflow: hidden;
     }
@@ -688,6 +692,396 @@
       padding: 0 4px;
       cursor: pointer;
     }
+
+    /* Modalità Finestra Massimizzata (Desktop e Tablet) */
+    .window-container.maximized {
+      position: fixed !important;
+      top: 2px !important;
+      left: 2px !important;
+      right: 2px !important;
+      bottom: 34px !important;
+      width: calc(100vw - 4px) !important;
+      height: calc(100vh - 36px) !important;
+      height: calc(100dvh - 36px) !important;
+      max-width: none !important;
+      max-height: none !important;
+      z-index: 900;
+    }
+
+    .mobile-scroll-tip {
+      display: none;
+    }
+
+    .oe-mobile-folder-bar {
+      display: none;
+    }
+
+    .oe-mobile-back-btn {
+      display: none;
+    }
+
+    /* ========================================================
+       ADATTAMENTO SMARTPHONE E TOUCHSCREEN (max-width: 768px)
+       ======================================================== */
+    @media (max-width: 768px) {
+      /* Effetto CRT più nitido e delicato sui monitor piccoli */
+      body.crt-active::before {
+        opacity: 0.35;
+        background-size: 100% 4px, 4px 100%;
+      }
+      body.crt-active::after {
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.45);
+      }
+
+      /* Desktop & Griglia Icone a 2 colonne comoda da toccare */
+      .desktop-icons {
+        top: 12px;
+        left: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 92px);
+        gap: 16px 14px;
+      }
+
+      .desktop-icon {
+        width: 92px;
+        padding: 6px 3px;
+        border-radius: 2px;
+      }
+
+      .desktop-icon svg {
+        width: 42px;
+        height: 42px;
+      }
+
+      .icon-label {
+        font-size: 11px;
+        line-height: 1.25;
+      }
+
+      /* Finestre a schermo intero su smartphone (fissate al viewport) */
+      .window-container {
+        position: fixed !important;
+        top: 2px !important;
+        left: 2px !important;
+        right: 2px !important;
+        bottom: 34px !important;
+        width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: calc(100dvh - 36px) !important;
+        margin: 0 !important;
+        display: none;
+        flex-direction: column;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.75);
+        z-index: 500;
+      }
+
+      .window-container.window-visible {
+        display: flex !important;
+      }
+
+      .window-container .window-body {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 4px;
+      }
+
+      /* Titolo e controlli finestra con touch-area ingrandita */
+      .title-bar {
+        padding: 4px 6px;
+      }
+
+      .title-bar-text {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .title-bar-controls {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .title-bar-controls button {
+        min-width: 26px;
+        min-height: 22px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .title-bar-controls button::after {
+        content: "";
+        position: absolute;
+        top: -6px; bottom: -6px; left: -6px; right: -6px;
+      }
+
+      /* Menu bar retrò a scorrimento orizzontale */
+      .menu-bar {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+      }
+
+      /* Foglio di Calcolo (Fatture_Anomale.xls) */
+      .excel-toolbar {
+        padding: 2px;
+      }
+
+      .excel-formula-bar {
+        font-size: 10px;
+        overflow-x: auto;
+      }
+
+      .excel-formula-input {
+        white-space: nowrap;
+        font-size: 10px;
+      }
+
+      .mobile-scroll-tip {
+        display: block !important;
+        background: #ffffd0;
+        border: 1px solid #c0a000;
+        color: #5c4100;
+        padding: 4px 6px;
+        font-size: 10px;
+        margin-bottom: 3px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .excel-table-wrapper {
+        flex: 1;
+        height: auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table.excel-table {
+        min-width: 620px;
+      }
+
+      table.excel-table th, table.excel-table td {
+        padding: 6px 6px;
+      }
+
+      /* Blocco Note (Registro_Smanchi.txt) */
+      .notepad-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .notepad-content {
+        flex: 1;
+        height: 100%;
+        max-height: none;
+        font-size: 12px;
+        line-height: 1.45;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Cestino */
+      .trash-explorer {
+        flex: 1;
+        height: auto;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table.trash-table {
+        min-width: 460px;
+      }
+
+      .trash-item-row td {
+        padding: 9px 6px;
+      }
+
+      /* Documento Corrotto WordPad */
+      .corrupted-doc-body {
+        flex: 1;
+        height: auto;
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 10px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Client Email (Posta) su Mobile */
+      .oe-container {
+        flex: 1;
+        height: auto;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .oe-toolbar {
+        padding: 2px 4px;
+        gap: 2px;
+      }
+
+      .oe-tool-btn {
+        padding: 2px 4px;
+        font-size: 9px;
+      }
+
+      .oe-folder-tree {
+        display: none !important;
+      }
+
+      .oe-mobile-folder-bar {
+        display: flex !important;
+        gap: 4px;
+        padding: 4px 6px;
+        background: #c0c0c0;
+        border-bottom: 1px solid #808080;
+      }
+
+      .oe-mob-tab {
+        flex: 1;
+        height: 28px;
+        font-size: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        background: #c0c0c0;
+        border: 2px outset #ffffff;
+      }
+
+      .oe-mob-tab.active {
+        font-weight: bold;
+        background: #dfdfdf;
+        border: 2px inset #ffffff;
+      }
+
+      .oe-layout {
+        flex: 1;
+        margin-top: 2px;
+        overflow: hidden;
+      }
+
+      .oe-right-pane {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        position: relative;
+      }
+
+      .oe-msg-list-wrapper {
+        flex: 1;
+        height: 100%;
+        max-height: none;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .oe-msg-list-wrapper.mobile-hidden {
+        display: none !important;
+      }
+
+      table.oe-msg-table {
+        min-width: 460px;
+      }
+
+      table.oe-msg-table td {
+        padding: 8px 4px;
+      }
+
+      .oe-preview-wrapper {
+        display: none;
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: #ffffff;
+        z-index: 20;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 8px;
+      }
+
+      .oe-preview-wrapper.mobile-visible {
+        display: flex !important;
+        flex-direction: column;
+      }
+
+      .oe-mobile-back-btn {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 6px;
+        width: 100%;
+        height: 32px;
+        font-size: 11px;
+        font-weight: bold;
+        background: #d4d0c8;
+        border: 2px outset #ffffff;
+        margin-bottom: 8px;
+        padding: 0 10px;
+        cursor: pointer;
+      }
+
+      .oe-preview-body {
+        font-size: 13px;
+        line-height: 1.5;
+        padding: 4px 2px;
+      }
+
+      /* Taskbar su Mobile */
+      .taskbar {
+        height: 34px;
+        padding: 2px 4px;
+        padding-bottom: max(2px, env(safe-area-inset-bottom));
+      }
+
+      .start-button {
+        height: 26px;
+        padding: 2px 6px;
+        font-size: 11px;
+      }
+
+      .taskbar-tab {
+        min-width: 70px;
+        max-width: 110px;
+        height: 24px;
+        font-size: 10px;
+        padding: 0 4px;
+      }
+
+      .taskbar-tray {
+        height: 24px;
+        gap: 3px;
+        padding: 0 4px;
+      }
+
+      .tray-btn {
+        font-size: 9px;
+        height: 20px;
+        padding: 0 3px;
+      }
+
+      #tray-clock {
+        font-size: 10px;
+      }
+
+      /* Finestra di Login su smartphone */
+      .login-window {
+        max-width: 95vw;
+      }
+
+      .login-body input {
+        font-size: 16px !important; /* Disabilita zoom indesiderato su iOS Safari */
+      }
+    }
   </style>
 </head>
 <body class="crt-active">
@@ -798,6 +1192,7 @@
           <polyline points="2,6 16,18 30,6" fill="none" stroke="#800000" stroke-width="1.5"/>
           <line x1="2" y1="26" x2="12" y2="15" stroke="#808080" stroke-width="1"/>
           <line x1="30" y1="26" x2="20" y2="15" stroke="#808080" stroke-width="1"/>
+          <!-- Sigillo postale blu -->
           <circle cx="23" cy="20" r="4" fill="#000080"/>
           <text x="21" y="23" font-family="Arial" font-size="8" font-weight="bold" fill="#ffffff">@</text>
         </svg>
@@ -843,6 +1238,7 @@
           </div>
         </div>
 
+        <div class="mobile-scroll-tip">👉 Scorri in orizzontale la tabella per visualizzare tutte le colonne e le note di Corsini</div>
         <div class="sunken-panel excel-table-wrapper">
           <table class="excel-table">
             <thead>
@@ -942,7 +1338,7 @@
           <div class="menu-item"><span>C</span>erca</div>
           <div class="menu-item"><span>?</span></div>
         </div>
-        <div class="sunken-panel">
+        <div class="sunken-panel notepad-wrapper">
           <div class="notepad-content">========================================================
 REGISTRO SMANCHI PERSONALE - SEZIONE MANOSCRITTI E RARI
 Riservato - Prof. Enea Corsini
@@ -1176,6 +1572,16 @@ altrimenti vado dritto dal Rettore e dalla Polizia.
             </button>
           </div>
 
+          <!-- Mobile Folder Bar (visibile solo su smartphone <= 768px) -->
+          <div class="oe-mobile-folder-bar" id="oe-mobile-folder-bar">
+            <button type="button" class="oe-mob-tab active" id="mob-tab-inbox" onclick="switchFolder('inbox');">
+              📁 In arrivo <span id="mob-badge-inbox">(9)</span>
+            </button>
+            <button type="button" class="oe-mob-tab" id="mob-tab-caronte" onclick="switchFolder('caronte');" style="color: #8b0000; font-weight: bold;">
+              🔒 Caronte <span id="mob-badge-caronte">(1)</span>
+            </button>
+          </div>
+
           <!-- Layout: Cartelle + Lista e Anteprima -->
           <div class="oe-layout">
             <!-- Colonna Cartelle a sinistra -->
@@ -1210,7 +1616,7 @@ altrimenti vado dritto dal Rettore e dalla Polizia.
             <!-- Colonna Destra: Elenco e Anteprima -->
             <div class="oe-right-pane">
               <!-- Tabella Lista Email -->
-              <div class="sunken-panel oe-msg-list-wrapper">
+              <div class="sunken-panel oe-msg-list-wrapper" id="oe-msg-list-wrapper">
                 <table class="oe-msg-table">
                   <thead>
                     <tr>
@@ -1229,7 +1635,10 @@ altrimenti vado dritto dal Rettore e dalla Polizia.
               </div>
 
               <!-- Box Lettura Email Selezionata -->
-              <div class="sunken-panel oe-preview-wrapper">
+              <div class="sunken-panel oe-preview-wrapper" id="oe-preview-wrapper">
+                <button type="button" class="oe-mobile-back-btn" id="btn-back-to-list" onclick="mobileBackToList();">
+                  ← Torna all'elenco messaggi
+                </button>
                 <div class="oe-preview-headers">
                   <div class="oe-header-row">
                     <span class="oe-header-label">Da:</span>
@@ -1740,6 +2149,11 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
     }
 
     function centerWindow(winElement) {
+      if (window.innerWidth <= 768) {
+        winElement.style.left = "";
+        winElement.style.top = "";
+        return;
+      }
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
       const winWidth = winElement.offsetWidth || 560;
@@ -1760,7 +2174,12 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       const isHidden = (winObj.element.style.display === "" || winObj.element.style.display === "none");
       if (isHidden) {
         winObj.element.style.display = "block";
+        winObj.element.classList.add("window-visible");
         centerWindow(winObj.element);
+      }
+
+      if (windowId === "window-mail") {
+        mobileBackToList();
       }
 
       bringToFront(windowId);
@@ -1773,7 +2192,9 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       if (!winObj) return;
 
       winObj.element.style.display = "none";
+      winObj.element.classList.remove("window-visible");
       winObj.element.classList.remove("active-window");
+      winObj.element.classList.remove("maximized");
       updateTaskbar();
     }
 
@@ -1782,6 +2203,30 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
         e.stopPropagation();
         const targetId = this.getAttribute("data-target");
         closeWindow(targetId);
+      });
+    });
+
+    // Supporto per il tasto Ingrandisci/Ripristina (Maximize)
+    document.querySelectorAll("[aria-label='Maximize']").forEach(button => {
+      button.addEventListener("click", function(e) {
+        e.stopPropagation();
+        playRetroSound("click");
+        const win = this.closest(".window-container");
+        if (win) {
+          win.classList.toggle("maximized");
+        }
+      });
+    });
+
+    // Supporto per il tasto Riduci a icona (Minimize)
+    document.querySelectorAll("[aria-label='Minimize']").forEach(button => {
+      button.addEventListener("click", function(e) {
+        e.stopPropagation();
+        playRetroSound("click");
+        const win = this.closest(".window-container");
+        if (win) {
+          closeWindow(win.id);
+        }
       });
     });
 
@@ -1828,6 +2273,7 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       let startX, startY, initialLeft, initialTop;
 
       function onPointerDown(e) {
+        if (window.innerWidth <= 768) return; // Disabilita trascinamento su smartphone per prevenire uscite accidentali dallo schermo
         if (e.target.closest(".title-bar-controls")) return;
         isDragging = true;
         bringToFront(win.id);
@@ -1901,9 +2347,16 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       document.getElementById("folder-inbox").classList.toggle("active", folderName === "inbox");
       document.getElementById("folder-caronte").classList.toggle("active", folderName === "caronte");
 
+      const mobTabInbox = document.getElementById("mob-tab-inbox");
+      const mobTabCaronte = document.getElementById("mob-tab-caronte");
+      if (mobTabInbox) mobTabInbox.classList.toggle("active", folderName === "inbox");
+      if (mobTabCaronte) mobTabCaronte.classList.toggle("active", folderName === "caronte");
+
+      mobileBackToList();
+
       const emailList = EMAIL_DATABASE[currentFolder];
       if (emailList && emailList.length > 0) {
-        selectEmail(emailList[0].id);
+        selectEmail(emailList[0].id, false);
       } else {
         activeEmailId = null;
         renderEmailList();
@@ -1919,6 +2372,11 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       const unreadCaronte = EMAIL_DATABASE.caronte.filter(m => !m.letta).length;
       badgeInbox.textContent = `(${unreadInbox})`;
       badgeCaronte.textContent = `(${unreadCaronte})`;
+
+      const mobBadgeInbox = document.getElementById("mob-badge-inbox");
+      const mobBadgeCaronte = document.getElementById("mob-badge-caronte");
+      if (mobBadgeInbox) mobBadgeInbox.textContent = `(${unreadInbox})`;
+      if (mobBadgeCaronte) mobBadgeCaronte.textContent = `(${unreadCaronte})`;
 
       emailList.forEach(mail => {
         const tr = document.createElement("tr");
@@ -1940,7 +2398,7 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
         `;
 
         tr.addEventListener("click", () => {
-          selectEmail(mail.id);
+          selectEmail(mail.id, true);
         });
 
         oeTableBody.appendChild(tr);
@@ -1949,7 +2407,7 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       oeStatusText.textContent = `Cartella [${currentFolder === 'inbox' ? 'Posta in arrivo' : 'Caronte'}]: ${emailList.length} messaggi`;
     }
 
-    function selectEmail(id) {
+    function selectEmail(id, openMobileView = true) {
       playRetroSound("click");
       const emailList = EMAIL_DATABASE[currentFolder] || [];
       const mail = emailList.find(m => m.id === id);
@@ -1965,7 +2423,7 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
 
       if (mail.allegato_nome && mail.allegato_nome.trim() !== "") {
         oeViewAttachRow.style.display = "flex";
-        oeViewAttach.innerHTML = `📎 <strong>${mail.allegato_nome}</strong> (Fai clic per esaminare l'allegato)`;
+        oeViewAttach.innerHTML = `📎 <strong>${mail.allegato_nome}</strong> (Tocca per esaminare l'allegato)`;
         oeViewAttach.onclick = () => showAttachment(mail);
       } else {
         oeViewAttachRow.style.display = "none";
@@ -1981,6 +2439,20 @@ Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida in
       oeViewBody.textContent = mail.corpo;
 
       renderEmailList();
+
+      if (openMobileView && window.innerWidth <= 768) {
+        const msgListWrapper = document.getElementById("oe-msg-list-wrapper");
+        const previewWrapper = document.getElementById("oe-preview-wrapper");
+        if (msgListWrapper) msgListWrapper.classList.add("mobile-hidden");
+        if (previewWrapper) previewWrapper.classList.add("mobile-visible");
+      }
+    }
+
+    function mobileBackToList() {
+      const msgListWrapper = document.getElementById("oe-msg-list-wrapper");
+      const previewWrapper = document.getElementById("oe-preview-wrapper");
+      if (msgListWrapper) msgListWrapper.classList.remove("mobile-hidden");
+      if (previewWrapper) previewWrapper.classList.remove("mobile-visible");
     }
 
     // Visualizzatore di Allegati
