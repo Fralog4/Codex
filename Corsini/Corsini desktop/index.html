@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Windows 98 - Postazione Archivio Storico</title>
+  <!-- Foglio di stile originale Windows 98 -->
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* ========================================================
+       EFFETTO MONITOR RETRÒ (CRT / SCANLINES & BOMBATURA VETRO)
+       ======================================================== */
+    body.crt-active::before {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.28) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 99998;
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    body.crt-active::after {
+      content: " ";
+      display: block;
+      position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: radial-gradient(circle at center, transparent 65%, rgba(0, 0, 0, 0.45) 100%);
+      box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.65);
+      z-index: 99999;
+      pointer-events: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+      font-size: 11px;
+      background-color: #008080; /* Foglia di tè classica */
+    }
+
+    body, button, input, .desktop-icon, .title-bar {
+      cursor: default;
+    }
+
+    /* ========================================================
+       SCHERMATA 1: LOGIN WINDOWS 98
+       ======================================================== */
+    #login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #008080;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9990;
+    }
+
+    .login-window {
+      width: 390px;
+      max-width: 94vw;
+      box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 14px 16px;
+    }
+
+    .login-header-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 1px solid #808080;
+      padding-bottom: 10px;
+    }
+
+    .login-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+
+    .login-text-title {
+      font-weight: bold;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .login-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .login-controls button {
+      min-width: 75px;
+      height: 23px;
+      cursor: pointer;
+    }
+
+    /* ========================================================
+       SCHERMATA 2: DESKTOP INVESTIGATIVO
+       ======================================================== */
+    #desktop-screen {
+      display: none;
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background-color: #008080;
+      overflow: hidden;
+    }
+
+    /* Griglia Icone Desktop */
+    .desktop-icons {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      z-index: 10;
+    }
+
+    .desktop-icon {
+      width: 86px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      padding: 4px;
+      border: 1px dotted transparent;
+      outline: none;
+    }
+
+    .desktop-icon:hover {
+      background-color: rgba(0, 0, 128, 0.25);
+    }
+
+    .desktop-icon:focus,
+    .desktop-icon.active {
+      border-color: #ffff80;
+      background-color: #000080;
+    }
+
+    .desktop-icon:focus .icon-label,
+    .desktop-icon.active .icon-label {
+      background-color: #000080;
+      color: #ffffff;
+    }
+
+    .desktop-icon svg {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 4px;
+      pointer-events: none;
+      filter: drop-shadow(1px 1px 0px rgba(0,0,0,0.5));
+    }
+
+    .icon-label {
+      color: #ffffff;
+      font-size: 11px;
+      word-break: break-word;
+      line-height: 1.2;
+      text-shadow: 1px 1px 1px #000000;
+      padding: 1px 3px;
+    }
+
+    /* Finestre Windows 98 */
+    .window-container {
+      position: absolute;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.45);
+      display: none;
+    }
+
+    .window.active-window .title-bar {
+      background: linear-gradient(90deg, #000080, #1084d0);
+    }
+
+    .window:not(.active-window) .title-bar {
+      background: #808080;
+    }
+
+    .title-bar {
+      cursor: move;
+    }
+
+    .title-bar-text {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+    }
+
+    .title-bar-icon {
+      width: 14px;
+      height: 14px;
+      vertical-align: middle;
+    }
+
+    /* Menu bar retrò */
+    .menu-bar {
+      display: flex;
+      gap: 12px;
+      padding: 2px 6px;
+      border-bottom: 1px solid #808080;
+      margin-bottom: 4px;
+    }
+
+    .menu-item {
+      cursor: pointer;
+    }
+
+    .menu-item span {
+      text-decoration: underline;
+    }
+
+    /* ========================================================
+       1. FOGLIO DI CALCOLO (Fatture_Anomale.xls)
+       ======================================================== */
+    .excel-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #c0c0c0;
+      padding: 2px 4px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #808080;
+    }
+
+    .excel-formula-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .excel-formula-bar span {
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    .excel-formula-input {
+      width: 100%;
+      background: #ffffff;
+      padding: 1px 4px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+    }
+
+    .excel-table-wrapper {
+      background: #ffffff;
+      height: 250px;
+      overflow: auto;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    table.excel-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      background-color: #fff;
+    }
+
+    table.excel-table th, 
+    table.excel-table td {
+      border: 1px solid #d4d0c8;
+      padding: 4px 6px;
+      text-align: left;
+    }
+
+    table.excel-table th {
+      background-color: #ece9d8;
+      font-weight: normal;
+      text-align: center;
+      border: 1px solid #999;
+    }
+
+    table.excel-table tr.anomalia {
+      background-color: #fff2f2;
+    }
+
+    table.excel-table tr.anomalia td.costo {
+      color: #b00000;
+      font-weight: bold;
+      text-align: right;
+    }
+
+    table.excel-table tr.anomalia td.nota-corsini {
+      color: #8b0000;
+      font-style: italic;
+      font-weight: 500;
+      background-color: #ffe8e8;
+    }
+
+    table.excel-table tr.total-row {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+
+    /* ========================================================
+       2. BLOCCO NOTE (Registro_Smanchi.txt)
+       ======================================================== */
+    .notepad-content {
+      width: 100%;
+      height: 270px;
+      background: #ffffff;
+      font-family: "Lucida Console", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      padding: 8px;
+      overflow-y: auto;
+      user-select: text;
+      -webkit-user-select: text;
+      white-space: pre-wrap;
+    }
+
+    /* ========================================================
+       3. CESTINO & DOCUMENTO CORROTTO
+       ======================================================== */
+    .trash-explorer {
+      height: 230px;
+      background: #ffffff;
+      overflow-y: auto;
+    }
+
+    table.trash-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    table.trash-table th {
+      background: #ece9d8;
+      border: 1px solid #999;
+      padding: 3px 6px;
+      text-align: left;
+      font-weight: normal;
+    }
+
+    table.trash-table td {
+      padding: 4px 6px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .trash-item-row {
+      cursor: pointer;
+    }
+
+    .trash-item-row:hover {
+      background: #e8f0fe;
+    }
+
+    .trash-item-row.selected {
+      background: #000080;
+      color: #ffffff;
+    }
+
+    .corrupted-doc-body {
+      background: #ffffff;
+      height: 260px;
+      padding: 12px;
+      overflow-y: auto;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #222;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .corrupted-banner {
+      background: #fff3cd;
+      border-left: 4px solid #ff9900;
+      padding: 4px 8px;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      color: #856404;
+      margin-bottom: 10px;
+    }
+
+    .corrupted-glitch {
+      font-family: "Courier New", monospace;
+      background: #f0f0f0;
+      color: #b30000;
+      padding: 2px 4px;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    /* ========================================================
+       4. CLIENT EMAIL (Posta / Outlook Express)
+       ======================================================== */
+    .oe-container {
+      display: flex;
+      flex-direction: column;
+      height: 450px;
+    }
+
+    .oe-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #c0c0c0;
+      padding: 3px 4px;
+      border-bottom: 1px solid #808080;
+    }
+
+    .oe-tool-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2px 6px;
+      font-size: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .oe-tool-btn:hover {
+      box-shadow: inset -1px -1px #0a0a0a, inset 1px 1px #fff;
+      background: #d4d0c8;
+    }
+
+    .oe-tool-btn svg {
+      width: 16px;
+      height: 16px;
+      margin-bottom: 2px;
+    }
+
+    .oe-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      margin-top: 4px;
+      gap: 4px;
+    }
+
+    .oe-folder-tree {
+      width: 175px;
+      background: #ffffff;
+      padding: 4px;
+      overflow-y: auto;
+      font-size: 11px;
+    }
+
+    .oe-folder-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-radius: 1px;
+    }
+
+    .oe-folder-item:hover {
+      background: #f0f0f0;
+    }
+
+    .oe-folder-item.active {
+      background: #000080 !important;
+      color: #ffffff !important;
+      font-weight: bold;
+    }
+
+    .oe-right-pane {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+      gap: 4px;
+    }
+
+    .oe-msg-list-wrapper {
+      height: 185px;
+      background: #ffffff;
+      overflow-y: auto;
+    }
+
+    table.oe-msg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    table.oe-msg-table th {
+      background: #ece9d8;
+      border: 1px solid #999;
+      font-weight: normal;
+      padding: 2px 4px;
+      text-align: left;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    table.oe-msg-table td {
+      border-bottom: 1px solid #eee;
+      padding: 3px 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    table.oe-msg-table tr:hover {
+      background-color: #e8f0fe;
+    }
+
+    table.oe-msg-table tr.selected {
+      background-color: #000080 !important;
+      color: #ffffff !important;
+    }
+
+    table.oe-msg-table tr.unread {
+      font-weight: bold;
+    }
+
+    .oe-preview-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      overflow: hidden;
+      padding: 6px 8px;
+    }
+
+    .oe-preview-headers {
+      border-bottom: 1px solid #808080;
+      padding-bottom: 6px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .oe-header-row {
+      display: flex;
+    }
+
+    .oe-header-label {
+      width: 75px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .oe-header-val {
+      flex: 1;
+      color: #000;
+    }
+
+    .oe-warning-badge {
+      background: #ffe6e6;
+      border-left: 3px solid #cc0000;
+      padding: 3px 6px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      color: #8b0000;
+    }
+
+    .oe-preview-body {
+      flex: 1;
+      overflow-y: auto;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #1a0000;
+      white-space: pre-wrap;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    /* Stile Finestre Allegati Multimediali */
+    .attachment-preview-box {
+      background: #ffffff;
+      padding: 12px;
+      text-align: center;
+      overflow-y: auto;
+      max-height: 280px;
+    }
+
+    /* Barra delle applicazioni (Taskbar) */
+    .taskbar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background: #c0c0c0;
+      border-top: 2px solid #ffffff;
+      box-shadow: inset 0 1px 0 #dfdfdf;
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 4px;
+      z-index: 9000;
+    }
+
+    .start-button {
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 24px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+
+    .start-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .taskbar-divider {
+      width: 2px;
+      height: 20px;
+      border-left: 1px solid #808080;
+      border-right: 1px solid #ffffff;
+      margin: 0 2px;
+    }
+
+    .taskbar-tasks {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .taskbar-tab {
+      min-width: 110px;
+      max-width: 170px;
+      height: 22px;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 0 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
+    .taskbar-tab.active {
+      font-weight: bold;
+      background: #dedede;
+      box-shadow: inset 1px 1px #000, inset -1px -1px #fff;
+    }
+
+    .taskbar-tray {
+      height: 22px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 6px;
+      font-size: 11px;
+      box-shadow: inset 1px 1px #808080, inset -1px -1px #ffffff;
+    }
+
+    .tray-btn {
+      font-size: 10px;
+      height: 18px;
+      padding: 0 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="crt-active">
+
+  <!-- ========================================================
+       SCHERMATA 1: LOGIN WINDOWS 98
+       ======================================================== -->
+  <div id="login-screen">
+    <div class="window login-window">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16" fill="none">
+            <rect x="2" y="5" width="12" height="9" fill="#c0c0c0" stroke="#000"/>
+            <circle cx="8" cy="9" r="1.5" fill="#000"/>
+            <path d="M5 5V3.5C5 2.1 6.3 1 8 1C9.7 1 11 2.1 11 3.5V5" stroke="#000" stroke-width="1.5"/>
+          </svg>
+          Accesso di Rete - Windows 98
+        </div>
+      </div>
+      <div class="window-body login-body">
+        <div class="login-header-info">
+          <!-- Icona Chiave Password -->
+          <svg class="login-icon" viewBox="0 0 32 32">
+            <rect width="32" height="32" fill="none"/>
+            <path d="M4 18 L16 6 C19 3 24 3 27 6 C30 9 30 14 27 17 C25 19 22 19 20 18 L14 24 L14 28 L10 28 L10 24 L6 24 L4 22 Z" fill="#FFD700" stroke="#000" stroke-width="1.5"/>
+            <circle cx="23" cy="10" r="2.5" fill="#008080"/>
+          </svg>
+          <div>
+            <div class="login-text-title">Postazione Archivio Storico</div>
+            <div>Digitare la parola d'ordine riservata per sbloccare l'accesso al sistema del Prof. Corsini.</div>
+          </div>
+        </div>
+
+        <div class="field-row" style="margin-top: 4px;">
+          <label for="username-display" style="width: 80px;">Utente:</label>
+          <input id="username-display" type="text" value="Prof. E. Corsini" disabled style="flex: 1; background: #e0e0e0; color: #555;">
+        </div>
+
+        <div class="field-row">
+          <label for="password-input" style="width: 80px;">Password:</label>
+          <input id="password-input" type="password" autofocus style="flex: 1; background: #fff;">
+        </div>
+
+        <div class="login-controls">
+          <button id="btn-login-ok" type="button" style="font-weight: bold;">OK</button>
+          <button id="btn-login-cancel" type="button">Annulla</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SCHERMATA 2: DESKTOP INVESTIGATIVO
+       ======================================================== -->
+  <div id="desktop-screen">
+    
+    <!-- Griglia Icone Desktop -->
+    <div class="desktop-icons">
+
+      <!-- Icona 1: Cestino (Il seme del dubbio) -->
+      <div class="desktop-icon" id="icon-trash" tabindex="0" title="Doppio clic per aprire il Cestino">
+        <svg viewBox="0 0 32 32">
+          <rect x="7" y="10" width="18" height="19" fill="#c0c0c0" stroke="#000" stroke-width="1.2"/>
+          <line x1="11" y1="13" x2="11" y2="25" stroke="#808080"/>
+          <line x1="16" y1="13" x2="16" y2="25" stroke="#808080"/>
+          <line x1="21" y1="13" x2="21" y2="25" stroke="#808080"/>
+          <polygon points="10,12 14,4 18,9 22,5 23,12" fill="#ffffff" stroke="#808080"/>
+          <rect x="5" y="9" width="22" height="3" fill="#808080" stroke="#000" stroke-width="1"/>
+        </svg>
+        <span class="icon-label">Cestino</span>
+      </div>
+
+      <!-- Icona 2: Fatture_Anomale.xls (Il movente di Beatrice) -->
+      <div class="desktop-icon" id="icon-excel" tabindex="0" title="Clicca per aprire Fatture_Anomale.xls">
+        <svg viewBox="0 0 32 32">
+          <rect x="3" y="2" width="26" height="28" fill="#ffffff" stroke="#000" stroke-width="1.5"/>
+          <path d="M3 2 L22 2 L29 9 L29 30 L3 30 Z" fill="#ffffff"/>
+          <path d="M22 2 L22 9 L29 9 Z" fill="#c0c0c0" stroke="#000" stroke-width="1"/>
+          <rect x="6" y="11" width="18" height="15" fill="#008000" stroke="#004d00"/>
+          <line x1="6" y1="16" x2="24" y2="16" stroke="#ffffff"/>
+          <line x1="6" y1="21" x2="24" y2="21" stroke="#ffffff"/>
+          <line x1="12" y1="11" x2="12" y2="26" stroke="#ffffff"/>
+          <line x1="18" y1="11" x2="18" y2="26" stroke="#ffffff"/>
+          <text x="8" y="22" font-family="Arial" font-size="12" font-weight="bold" fill="#ffffff">X</text>
+        </svg>
+        <span class="icon-label">Fatture_Anomale.xls</span>
+      </div>
+
+      <!-- Icona 3: Registro_Smanchi.txt (Il movente di Alfredo) -->
+      <div class="desktop-icon" id="icon-notepad" tabindex="0" title="Clicca per aprire Registro_Smanchi.txt">
+        <svg viewBox="0 0 32 32">
+          <rect x="5" y="3" width="22" height="26" fill="#fdfdcd" stroke="#000" stroke-width="1.5"/>
+          <rect x="3" y="5" width="22" height="24" fill="#ffffff" stroke="#000" stroke-width="1"/>
+          <line x1="7" y1="9" x2="21" y2="9" stroke="#000080" stroke-width="1.5"/>
+          <line x1="7" y1="13" x2="21" y2="13" stroke="#808080" stroke-width="1"/>
+          <line x1="7" y1="17" x2="21" y2="17" stroke="#808080" stroke-width="1"/>
+          <line x1="7" y1="21" x2="18" y2="21" stroke="#808080" stroke-width="1"/>
+          <line x1="7" y1="25" x2="15" y2="25" stroke="#808080" stroke-width="1"/>
+          <polygon points="19,23 27,15 29,17 21,25 18,26" fill="#008080" stroke="#000" stroke-width="0.8"/>
+        </svg>
+        <span class="icon-label">Registro_Smanchi.txt</span>
+      </div>
+
+      <!-- Icona 4: Posta (Client Email Ufficiale) -->
+      <div class="desktop-icon" id="icon-mail" tabindex="0" title="Clicca per aprire la Posta Elettronica">
+        <svg viewBox="0 0 32 32">
+          <rect x="2" y="6" width="28" height="20" fill="#ffffc0" stroke="#000" stroke-width="1.5"/>
+          <polyline points="2,6 16,18 30,6" fill="none" stroke="#800000" stroke-width="1.5"/>
+          <line x1="2" y1="26" x2="12" y2="15" stroke="#808080" stroke-width="1"/>
+          <line x1="30" y1="26" x2="20" y2="15" stroke="#808080" stroke-width="1"/>
+          <circle cx="23" cy="20" r="4" fill="#000080"/>
+          <text x="21" y="23" font-family="Arial" font-size="8" font-weight="bold" fill="#ffffff">@</text>
+        </svg>
+        <span class="icon-label">Posta</span>
+      </div>
+
+    </div>
+
+    <!-- ========================================================
+         FINESTRA 1: FATTURE_ANOMALE.XLS (MOVENTE BEATRICE)
+         ======================================================== -->
+    <div class="window window-container" id="window-excel" style="width: 680px; max-width: 96vw; top: 50px; left: 140px;">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16">
+            <rect width="16" height="16" fill="#008000"/>
+            <text x="3" y="13" font-family="Arial" font-size="12" font-weight="bold" fill="#ffffff">X</text>
+          </svg>
+          Microsoft Excel - Fatture_Anomale.xls [Verifica Interna Corsini]
+        </div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close" class="btn-close-window" data-target="window-excel"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="menu-bar">
+          <div class="menu-item"><span>F</span>ile</div>
+          <div class="menu-item"><span>M</span>odifica</div>
+          <div class="menu-item"><span>V</span>isualizza</div>
+          <div class="menu-item"><span>I</span>nserisci</div>
+          <div class="menu-item"><span>F</span>ormato</div>
+          <div class="menu-item"><span>S</span>trumenti</div>
+          <div class="menu-item"><span>D</span>ati</div>
+          <div class="menu-item"><span>?</span></div>
+        </div>
+
+        <div class="excel-toolbar">
+          <div class="excel-formula-bar">
+            <span>fx</span>
+            <div class="sunken-panel excel-formula-input">=SOMMA(C2:C7) - CONTO DIRETTRICE NON GIUSTIFICATO</div>
+          </div>
+        </div>
+
+        <div class="sunken-panel excel-table-wrapper">
+          <table class="excel-table">
+            <thead>
+              <tr>
+                <th style="width: 25px;"></th>
+                <th style="width: 90px;">Mese</th>
+                <th style="width: 170px;">Voce di Spesa</th>
+                <th style="width: 100px;">Importo</th>
+                <th>Nota a margine di Corsini</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>2</th>
+                <td>Gennaio</td>
+                <td>Rilegatura tomi settecenteschi</td>
+                <td style="text-align: right;">1.450.000 L.</td>
+                <td style="color: #555;">Fattura regolare verificata con laboratorio legatoria.</td>
+              </tr>
+              <tr class="anomalia">
+                <th>3</th>
+                <td>Febbraio</td>
+                <td>Restauro codici membranacei</td>
+                <td class="costo">22.800.000 L.</td>
+                <td class="nota-corsini">Cifra quadruplicata rispetto all'anno scorso. Nessun codice inviato a Firenze.</td>
+              </tr>
+              <tr>
+                <th>4</th>
+                <td>Marzo</td>
+                <td>Materiali conservazione acid-free</td>
+                <td style="text-align: right;">850.000 L.</td>
+                <td style="color: #555;">Fornitura regolare pervenuta in archivio.</td>
+              </tr>
+              <tr class="anomalia">
+                <th>5</th>
+                <td>Aprile</td>
+                <td>Disinfestazione straordinaria archivi</td>
+                <td class="costo">36.500.000 L.</td>
+                <td class="nota-corsini">⚠️ NESSUNA DISINFESTAZIONE AVVENUTA AD APRILE. I registri d'ingresso della ditta sono vuoti. Dove sono finiti questi soldi?</td>
+              </tr>
+              <tr class="anomalia">
+                <th>6</th>
+                <td>Giugno</td>
+                <td>Consulenza perizia fondi rari</td>
+                <td class="costo">28.000.000 L.</td>
+                <td class="nota-corsini">Bonifico a società di facciata riconducibile a conti privati. Beatrice ha un disperato bisogno di contanti liquidi... perché?</td>
+              </tr>
+              <tr>
+                <th>7</th>
+                <td>Settembre</td>
+                <td>Sostituzione lampade UV lettura</td>
+                <td style="text-align: right;">1.200.000 L.</td>
+                <td style="color: #555;">Manutenzione ordinaria sale consultazione.</td>
+              </tr>
+              <tr class="total-row">
+                <th>8</th>
+                <td colspan="2" style="text-align: right; padding-right: 10px;">TOTALE SOTTRATTO SOSPETTO:</td>
+                <td style="color: #b00000; font-weight: bold; text-align: right;">87.300.000 L.</td>
+                <td style="color: #b00000; font-weight: bold;">Pronto per l'esposto alla Guardia di Finanza.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="status-bar" style="margin-top: 6px; display: flex; justify-content: space-between; padding: 2px 4px;">
+          <p class="status-bar-field">Discrepanze contabili rilevate: 3</p>
+          <p class="status-bar-field" style="color: #b00000;">Fatture liquidate con firma esclusiva B. Corsini</p>
+          <p class="status-bar-field">NUM</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         FINESTRA 2: REGISTRO_SMANCHI.TXT (MOVENTE ALFREDO)
+         ======================================================== -->
+    <div class="window window-container" id="window-notepad" style="width: 560px; max-width: 96vw; top: 75px; left: 190px;">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16">
+            <rect width="16" height="16" fill="#3a6ea5"/>
+            <rect x="3" y="3" width="10" height="10" fill="#ffffff"/>
+            <line x1="5" y1="5" x2="11" y2="5" stroke="#000"/>
+            <line x1="5" y1="7" x2="11" y2="7" stroke="#000"/>
+          </svg>
+          Registro_Smanchi.txt - Blocco note
+        </div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close" class="btn-close-window" data-target="window-notepad"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="menu-bar">
+          <div class="menu-item"><span>F</span>ile</div>
+          <div class="menu-item"><span>M</span>odifica</div>
+          <div class="menu-item"><span>C</span>erca</div>
+          <div class="menu-item"><span>?</span></div>
+        </div>
+        <div class="sunken-panel">
+          <div class="notepad-content">========================================================
+REGISTRO SMANCHI PERSONALE - SEZIONE MANOSCRITTI E RARI
+Riservato - Prof. Enea Corsini
+Ultima verifica: 28 Ottobre
+========================================================
+
+DOCUMENTI E VOLUMI SEGNALATI COME "MANCANTI" DALL'ALA NORD:
+
+[COD. MAN-0142] - Breviario Monastico Miniato (sec. XIII)
+- Scheda prestito: ASSENTE.
+- Collocazione: Scaffale N-12, faldone 3. Vuoto.
+
+[COD. PERG-089] - Regesto Notarile di Pavia (Fondo membranaceo)
+- Scheda prestito: ASSENTE.
+- Collocazione: Cassettiera blindata Ala Nord. Lucchetto forzato.
+
+[COD. DOC-1994/B] - Relazione preliminare scavi e planimetrie (1994)
+- Scheda prestito: ASSENTE.
+- Asportati i fascicoli 4 e 5 relativi all'Ala Ovest.
+
+[COD. MAN-0205] - Trattato di Erboristeria Medievale
+- Scheda prestito: ASSENTE.
+- Rimosso dalla teca espositiva senza autorizzazione.
+
+--------------------------------------------------------
+NOTE E INCROCI DI CORSINI:
+
+Turni di sorveglianza e chiusura Ala Nord (Mese di Ottobre):
+- 08 Ottobre (19:00 - 22:30) -> Custodia: Alfredo V.  [Sparito MAN-0142]
+- 15 Ottobre (19:30 - 23:00) -> Custodia: Alfredo V.  [Sparito PERG-089]
+- 22 Ottobre (20:00 - 23:30) -> Custodia: Alfredo V.  [Sparito DOC-1994/B]
+- 27 Ottobre (19:00 - 22:00) -> Custodia: Alfredo V.  [Sparito MAN-0205]
+
+Coincidenza perfetta. Ogni volta che lui chiude l'ala nord, 
+sparisce un lotto. Devo metterlo all'angolo prima che smantelli 
+l'archivio pezzo per pezzo. Domani mattina esigo spiegazioni, 
+altrimenti vado dritto dal Rettore e dalla Polizia.
+--------------------------------------------------------</div>
+        </div>
+        <div class="status-bar" style="margin-top: 6px; padding: 2px 4px;">
+          <p class="status-bar-field">Linee: 36 | Caratteri: 1412</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         FINESTRA 3: CESTINO (SEME DEL DUBBIO PER IL FUTURO)
+         ======================================================== -->
+    <div class="window window-container" id="window-trash" style="width: 580px; max-width: 95vw; top: 110px; left: 160px;">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16">
+            <rect x="3" y="4" width="10" height="11" fill="#c0c0c0" stroke="#000"/>
+            <line x1="1" y1="3" x2="15" y2="3" stroke="#000"/>
+          </svg>
+          Cestino
+        </div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close" class="btn-close-window" data-target="window-trash"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="menu-bar">
+          <div class="menu-item"><span>F</span>ile</div>
+          <div class="menu-item"><span>M</span>odifica</div>
+          <div class="menu-item"><span>V</span>isualizza</div>
+          <div class="menu-item"><span>G</span>uida</div>
+        </div>
+
+        <div class="field-row" style="margin-bottom: 6px; padding: 2px 4px;">
+          <label style="width: 60px;">Indirizzo:</label>
+          <div class="sunken-panel" style="flex: 1; padding: 2px 4px; background: #fff;">C:\RECYCLED</div>
+        </div>
+
+        <div class="sunken-panel trash-explorer">
+          <table class="trash-table">
+            <thead>
+              <tr>
+                <th style="width: 190px;">Nome</th>
+                <th style="width: 130px;">Posizione originale</th>
+                <th style="width: 110px;">Data eliminazione</th>
+                <th>Dimensione</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="trash-item-row" id="row-trash-doc" title="Doppio clic o clic per esaminare il file eliminato">
+                <td style="display: flex; align-items: center; gap: 6px;">
+                  <svg width="16" height="16" viewBox="0 0 16 16">
+                    <rect x="2" y="1" width="12" height="14" fill="#ffffff" stroke="#000"/>
+                    <rect x="4" y="4" width="8" height="2" fill="#000080"/>
+                    <line x1="4" y1="8" x2="10" y2="8" stroke="#808080"/>
+                    <line x1="4" y1="11" x2="12" y2="11" stroke="#808080"/>
+                  </svg>
+                  <strong>Bozza_Commissione_Etica.doc</strong>
+                </td>
+                <td>C:\Documenti\Personali</td>
+                <td>29/10/1994 23:41</td>
+                <td>24 KB</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="status-bar" style="margin-top: 6px; display: flex; justify-content: space-between; padding: 2px 4px;">
+          <p class="status-bar-field">1 oggetto nel Cestino (fai clic sul file per aprirlo)</p>
+          <p class="status-bar-field">24,0 KB</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         FINESTRA: BOZZA_COMMISSIONE_ETICA.DOC (CORROTTO)
+         ======================================================== -->
+    <div class="window window-container" id="window-corrupted-doc" style="width: 570px; max-width: 95vw; top: 125px; left: 210px;">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16">
+            <rect x="2" y="1" width="12" height="14" fill="#ffffff" stroke="#000"/>
+            <text x="4" y="12" font-size="10" fill="#000080" font-weight="bold">W</text>
+          </svg>
+          WordPad - Bozza_Commissione_Etica.doc [RECUPERO PARZIALE]
+        </div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close" class="btn-close-window" data-target="window-corrupted-doc"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="menu-bar">
+          <div class="menu-item"><span>F</span>ile</div>
+          <div class="menu-item"><span>M</span>odifica</div>
+          <div class="menu-item"><span>V</span>isualizza</div>
+          <div class="menu-item"><span>?</span></div>
+        </div>
+
+        <div class="corrupted-banner">
+          ⚠️ ATTENZIONE: Il file recuperato dal Cestino presenta settori danneggiati. Alcuni paragrafi e identità sono illeggibili o parzialmente sovrascritti.
+        </div>
+
+        <div class="sunken-panel corrupted-doc-body">
+          <p style="text-align: center; font-weight: bold; font-size: 14px; text-decoration: underline; margin-bottom: 4px;">
+            COMMISSIONE ETICA E DI DISCIPLINA DELL'ATENEO
+          </p>
+          <p style="text-align: center; font-style: italic; font-size: 11px; margin-top: 0;">
+            Bozza Riservata Personale — Non ancora protocollata
+          </p>
+
+          <p><strong>OGGETTO: SEGNALAZIONE FORMALE PER PLAGIO SISTEMATICO E APPROPRIAZIONE INDEBITA DI RICERCA ACCADEMICA</strong></p>
+
+          <p>Illustri Membri della Commissione,</p>
+
+          <p>con la presente memoria intendo formalizzare una denuncia di inaudita gravità che getta un'ombra intollerabile sulla reputazione scientifica del nostro Dipartimento di Studi Storici.</p>
+
+          <p>Dall'esame minuzioso della bozza del saggio annunciato in pompa magna per l'imminente concorso straordinario, emerge senza ombra di dubbio che l'intero apparato esegetico, i regesti e le trascrizioni dei manoscritti sono stati <strong>interamente plagiati</strong> da un lavoro di ricerca inedito condotto nell'autunno del 1993/1994.</p>
+
+          <p>Il giovane ricercatore ha sottratto fascicoli e appunti riservati, spacciandoli per proprie scoperte originali al solo scopo di garantirsi fondi e avanzamenti di carriera.</p>
+
+          <div style="margin: 12px 0; padding: 6px; background: #fafafa; border: 1px dashed #999;">
+            <span class="corrupted-glitch">[█▓▒░ SETTORE 0x004F7A DANNEGGIATO - RECUPERO PARZIALE ░▒▓█]</span>
+            <p style="font-family: 'Courier New', monospace; font-size: 11px; color: #777; margin: 4px 0;">
+              ...§§§§##@@@@!!! [ERRORE DI RIDONDANZA CICLICA CRC]<br>
+              ...il responsabile non potrà più nascondersi dietro la sua finta brillantezza accademica...<br>
+              ...identità del plagiario: Dott. L<span style="filter: blur(2px);">orenzo M</span>██████ [DATI ILLEGGIBILI]<br>
+              ...consegnerò la comparazione filologica al Rettore entro venerdì...
+            </p>
+            <span class="corrupted-glitch">[█▓▒░ FINE FRAMMENTO RECUPERATO ░▒▓█]</span>
+          </div>
+
+          <p>Non permetterò che l'ambizione di un impostore infanghi il lavoro di una vita.</p>
+
+          <p style="margin-top: 15px;"><em>Prof. Enea Corsini</em><br>
+          <small>Ordinario di Paleografia e Responsabile Sezione Manoscritti</small></p>
+        </div>
+
+        <div class="status-bar" style="margin-top: 6px; padding: 2px 4px;">
+          <p class="status-bar-field">Stato: Documento di WordPad recuperato (2 settori danneggiati)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         FINESTRA 4: POSTA ELETTRONICA (Outlook Express)
+         ======================================================== -->
+    <div class="window window-container" id="window-mail" style="width: 740px; max-width: 98vw; top: 35px; left: 100px;">
+      <div class="title-bar">
+        <div class="title-bar-text">
+          <svg class="title-bar-icon" viewBox="0 0 16 16">
+            <rect x="1" y="3" width="14" height="10" fill="#ffff99" stroke="#000"/>
+            <line x1="1" y1="3" x2="8" y2="9" stroke="#000080"/>
+            <line x1="15" y1="3" x2="8" y2="9" stroke="#000080"/>
+          </svg>
+          Posta - Outlook Express
+        </div>
+        <div class="title-bar-controls">
+          <button aria-label="Minimize"></button>
+          <button aria-label="Maximize"></button>
+          <button aria-label="Close" class="btn-close-window" data-target="window-mail"></button>
+        </div>
+      </div>
+      <div class="window-body" style="padding: 2px;">
+        <div class="menu-bar">
+          <div class="menu-item"><span>F</span>ile</div>
+          <div class="menu-item"><span>M</span>odifica</div>
+          <div class="menu-item"><span>V</span>isualizza</div>
+          <div class="menu-item"><span>S</span>trumenti</div>
+          <div class="menu-item"><span>M</span>essaggio</div>
+          <div class="menu-item"><span>?</span></div>
+        </div>
+
+        <div class="oe-container">
+          <!-- Toolbar Outlook Express -->
+          <div class="oe-toolbar">
+            <button class="oe-tool-btn" type="button" onclick="alert('Funzionalità di composizione disabilitata.');">
+              <svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#fff" stroke="#000"/><line x1="4" y1="5" x2="12" y2="5" stroke="#000"/><line x1="4" y1="8" x2="10" y2="8" stroke="#000"/></svg>
+              Nuovo
+            </button>
+            <button class="oe-tool-btn" type="button" onclick="playRetroSound('click'); alert('Nessun nuovo messaggio sul server POP3.');">
+              <svg viewBox="0 0 16 16"><path d="M2 8 L8 2 L14 8 M8 2 L8 14" stroke="#000" stroke-width="2" fill="none"/></svg>
+              Invia/Ricevi
+            </button>
+            <button class="oe-tool-btn" type="button" onclick="alert('Impossibile rispondere in modalità di sola lettura.');">
+              <svg viewBox="0 0 16 16"><path d="M12 4 L4 8 L12 12" stroke="#008000" stroke-width="2" fill="none"/></svg>
+              Rispondi
+            </button>
+            <button class="oe-tool-btn" type="button" onclick="alert('Cancellazione non consentita.');">
+              <svg viewBox="0 0 16 16"><path d="M4 4 L12 12 M12 4 L4 12" stroke="#cc0000" stroke-width="2"/></svg>
+              Elimina
+            </button>
+          </div>
+
+          <!-- Layout: Cartelle + Lista e Anteprima -->
+          <div class="oe-layout">
+            <!-- Colonna Cartelle a sinistra -->
+            <div class="sunken-panel oe-folder-tree">
+              <div style="font-weight: bold; margin-bottom: 6px; color: #333;">Cartelle di Outlook</div>
+              
+              <!-- Cartella 1: Posta in arrivo (Generale) -->
+              <div class="oe-folder-item active" id="folder-inbox" onclick="switchFolder('inbox');">
+                📁 Posta in arrivo <span id="badge-inbox" style="font-weight: normal;">(9)</span>
+              </div>
+              
+              <!-- Cartella 2: Fascicolo Segreto Caronte -->
+              <div class="oe-folder-item" id="folder-caronte" onclick="switchFolder('caronte');" style="color: #8b0000;">
+                🔒 Caronte <span id="badge-caronte" style="font-weight: bold;">(1)</span>
+              </div>
+              
+              <!-- Altre cartelle simulate per realismo -->
+              <div class="oe-folder-item" onclick="alert('Nessun messaggio in uscita in coda.');">
+                📤 Posta in uscita
+              </div>
+              <div class="oe-folder-item" onclick="alert('La cartella Posta Inviata contiene 24 ricevute di protocollo.');">
+                📨 Posta inviata
+              </div>
+              <div class="oe-folder-item" onclick="openWindow('window-trash');">
+                🗑️ Posta eliminata
+              </div>
+              <div class="oe-folder-item" onclick="alert('Nessuna bozza salvata.');">
+                📄 Bozze
+              </div>
+            </div>
+
+            <!-- Colonna Destra: Elenco e Anteprima -->
+            <div class="oe-right-pane">
+              <!-- Tabella Lista Email -->
+              <div class="sunken-panel oe-msg-list-wrapper">
+                <table class="oe-msg-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 18px;">!</th>
+                      <th style="width: 22px;">✉</th>
+                      <th style="width: 140px;">Da</th>
+                      <th>Oggetto</th>
+                      <th style="width: 120px;">Data</th>
+                      <th style="width: 20px;">📎</th>
+                    </tr>
+                  </thead>
+                  <tbody id="oe-email-table-body">
+                    <!-- Popolato dinamicamente in base alla cartella attiva -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Box Lettura Email Selezionata -->
+              <div class="sunken-panel oe-preview-wrapper">
+                <div class="oe-preview-headers">
+                  <div class="oe-header-row">
+                    <span class="oe-header-label">Da:</span>
+                    <span class="oe-header-val" id="oe-view-from" style="font-weight: bold;">-</span>
+                  </div>
+                  <div class="oe-header-row">
+                    <span class="oe-header-label">A:</span>
+                    <span class="oe-header-val" id="oe-view-to">-</span>
+                  </div>
+                  <div class="oe-header-row">
+                    <span class="oe-header-label">Data:</span>
+                    <span class="oe-header-val" id="oe-view-date">-</span>
+                  </div>
+                  <div class="oe-header-row">
+                    <span class="oe-header-label">Oggetto:</span>
+                    <span class="oe-header-val" id="oe-view-subject" style="font-weight: bold; color: #000080;">-</span>
+                  </div>
+                  <div class="oe-header-row" id="oe-view-attach-row" style="display: none;">
+                    <span class="oe-header-label">Allegati:</span>
+                    <span class="oe-header-val" id="oe-view-attach" style="color: #000080; text-decoration: underline; cursor: pointer;" title="Fai clic per esaminare l'allegato">-</span>
+                  </div>
+                </div>
+
+                <div id="oe-view-warning" class="oe-warning-badge" style="display: none;"></div>
+
+                <div class="oe-preview-body" id="oe-view-body">
+                  Seleziona un messaggio dall'elenco in alto per leggerne il contenuto.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar" style="margin-top: 4px; display: flex; justify-content: space-between; padding: 2px 4px;">
+          <p class="status-bar-field" id="oe-status-text">Messaggi: 9</p>
+          <p class="status-bar-field">Account: e.corsini@ateneo.it (POP3/SMTP)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         FINESTRA: ANTEPRIMA ALLEGATO
+         ======================================================== -->
+    <div class="window window-container" id="window-attachment-viewer" style="width: 490px; max-width: 95vw; top: 120px; left: 230px;">
+      <div class="title-bar">
+        <div class="title-bar-text" id="attach-viewer-title">Visualizzatore Allegati - Windows 98</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close" class="btn-close-window" data-target="window-attachment-viewer"></button>
+        </div>
+      </div>
+      <div class="window-body">
+        <div class="sunken-panel attachment-preview-box" id="attach-viewer-content">
+          <!-- Popolato dinamicamente al clic sull'allegato -->
+        </div>
+        <div class="status-bar" style="margin-top: 6px; padding: 2px 4px;">
+          <p class="status-bar-field">Visualizzazione elemento memorizzato nella cache temporanea</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         BARRA DELLE APPLICAZIONI (TASKBAR WIN98)
+         ======================================================== -->
+    <div class="taskbar">
+      <button class="start-button" id="start-btn">
+        <svg viewBox="0 0 16 16">
+          <rect x="1" y="1" width="6" height="6" fill="#f25022"/>
+          <rect x="9" y="1" width="6" height="6" fill="#7fba00"/>
+          <rect x="1" y="9" width="6" height="6" fill="#00a4ef"/>
+          <rect x="9" y="9" width="6" height="6" fill="#ffb900"/>
+        </svg>
+        <span>Avvio</span>
+      </button>
+
+      <div class="taskbar-divider"></div>
+
+      <!-- Finestre attive -->
+      <div class="taskbar-tasks" id="taskbar-tasks"></div>
+
+      <div class="taskbar-divider"></div>
+
+      <!-- Tray di sistema con switch retrò & orologio -->
+      <div class="taskbar-tray">
+        <button id="toggle-crt-btn" class="tray-btn" title="Attiva/Disattiva effetto tubo catodico (CRT)">📺 CRT: ON</button>
+        <button id="toggle-audio-btn" class="tray-btn" title="Attiva/Disattiva suoni sintetizzati retrò">🔊 Suoni: ON</button>
+        <span class="tray-time" id="tray-clock" style="margin-left: 4px;">12:00</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================================
+       LOGICA JAVASCRIPT & DATABASE EMAIL COMPLETO
+       ======================================================== -->
+  <script>
+    /* ========================================================
+       1. DATABASE COMPLETO DELLE EMAIL DIVISO PER CARTELLE
+       ======================================================== */
+    const EMAIL_DATABASE = {
+      // CARTELLA 1: POSTA IN ARRIVO GENERALE (Sospettati, Ateneo, Spam vintage)
+      inbox: [
+        {
+          id: 101,
+          da: "Beatrice Corsini <direzione.biblioteca@ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "29 Ottobre, 18:20",
+          oggetto: "Fatture di liquidazione e chiarimenti amministrativi",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Caro Enea,
+
+ti prego di smetterla di chiedere copia dei mandati di pagamento allo studio contabile. Le questioni di bilancio per la disinfestazione e i restauri dell'Ala Ovest spettano unicamente alla Direzione e sono state concordate con il Provveditorato. 
+
+Abbiamo già abbastanza problemi con il Collegio Docenti, non creare tensioni inutili per mere formalità amministrative. Ci vediamo alla riunione di dipartimento.
+
+Beatrice Corsini
+Direttrice Biblioteca Storica`
+        },
+        {
+          id: 102,
+          da: "Prof. Giacomo Ridolfi <g.ridolfi@chimica.ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "29 Ottobre, 21:10",
+          oggetto: "La discussione dell'altro ieri / partita a scacchi",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Enea,
+
+sono mortificato per come sono degenerate le cose l'altro giorno nel tuo studio. Conosci la disperata situazione del mio laboratorio dopo i tagli ministeriali. Non avrei mai voluto intaccare i tuoi fondi, è stata una misura disperata e temporanea. 
+
+Ti prometto che rimetterò a posto ogni singola lira prima della chiusura d'esercizio. Ti prego, non gettare all'aria trent'anni di stima fraterna. Dimmi che giovedì ci vediamo per la nostra consueta partita a scacchi.
+
+Giacomo`
+        },
+        {
+          id: 103,
+          da: "Magnifico Rettore Umberto Baroni <rettorato@ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "27 Ottobre, 09:30",
+          oggetto: "Concorso straordinario e decoro accademico",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Caro Enea,
+
+mi giungono voci che tu stia sollevando rimostranze riguardo ai criteri di valutazione della commissione per il recente concorso a cattedra. 
+
+Ti ricordo che le deliberazioni del Senato Accademico sono insindacabili e mirano unicamente al bene e alla continuità dell'istituto. Non tollererò che beghe personali o rancori tra colleghi ledano l'immagine pubblica dell'Ateneo sulla stampa. 
+
+Ti invito alla massima discrezione e al senso di responsabilità istituzionale che ti ha sempre contraddistinto.
+
+Umberto Baroni
+Rettore dell'Ateneo`
+        },
+        {
+          id: 104,
+          da: "Dott. Lorenzo Marini <lorenzo.marini@ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "28 Ottobre, 16:45",
+          oggetto: "Anticipazione bozza saggio storico",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Gentile Professor Corsini,
+
+le invio per opportuna conoscenza l'abstract del mio saggio 'L'Ateneo e le sue origini medievali' in uscita per i tipi dell'Editore Scientifico. Confido che apprezzerà il rigore filologico con cui ho rielaborato materiali d'archivio poco noti. 
+
+La mia prolusione per il concorso a cattedra è fissata per il mese prossimo.
+
+Cordialità,
+Dott. Lorenzo Marini`
+        },
+        {
+          id: 105,
+          da: "Filippo De Santis <filippo.ds@studenti.ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "30 Ottobre, 14:15",
+          oggetto: "Ricevimento urgente tesi di laurea",
+          priorita: "alta",
+          letta: false,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Chiarissimo Professore,
+
+sono disperato. La mia famiglia mi ha dato l'ultimatum e devo assolutamente laurearmi in questa sessione autunnale. 
+
+So che è rimasto perplesso dalla traduzione dal latino del manoscritto cinquecentesco, ma le assicuro che ho passato notti intere a decifrarlo. La supplico di non annullare la mia iscrizione all'esame di laurea. Possiamo vederci domani mattina nel suo ufficio per parlarne? La supplico.
+
+Filippo De Santis`
+        },
+        {
+          id: 106,
+          da: "Alfredo Valeri <alfredo.valeri@studenti.ateneo.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "30 Ottobre, 19:40",
+          oggetto: "Chiusura archivi e fotocopie dispense",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Professore,
+
+ho completato la trascrizione delle schede che mi ha lasciato ieri sera e ho riposto i faldoni nell'armadio metallico. Ho chiuso io l'Ala Nord con la chiave di servizio. 
+
+Domattina sarò in sede alle 07:30 per preparare i materiali della sua lezione.
+
+Alfredo Valeri`
+        },
+        {
+          id: 107,
+          da: "Segreteria Generale <avvisi@ateneo.it>",
+          a: "Tutto il Personale Docente <docenti@ateneo.it>",
+          data: "30 Ottobre, 11:00",
+          oggetto: "Circolare 44/94: Chiusura Biblioteca festività di Ognissanti",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `CIRCOLARE N. 44/1994 - ATENEO STUDI STORICI
+
+Si comunica al personale docente e agli studenti che gli uffici amministrativi e le sale di lettura dell'Archivio Storico rimarranno chiuse dalle ore 20:00 del 31 Ottobre per l'intera giornata di Ognissanti. 
+
+L'accesso notturno è consentito esclusivamente ai docenti responsabili di sezione muniti di tesserino magnetico e chiave di sicurezza.`
+        },
+        {
+          id: 108,
+          da: "Omnitel Promo <offerte@flashnet90.it>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "26 Ottobre, 12:15",
+          oggetto: "OFFERTA SPECIALE: Modem 56K V.90 e Abbonamento Flat!",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Naviga sul World Wide Web alla strabiliante velocità di 56.000 bps! 
+
+Con il nuovo modem esterno USRobotics Sportster navighi fino a 10 ore alla settimana senza occupare la linea telefonica di casa. 
+Ordina subito il tuo kit di connessione su dischetto floppy da 3.5 pollici con 50 ore di prova gratuita incluse!`
+        },
+        {
+          id: 109,
+          da: "Mondo Multimediale <direct@cdrom-italia.com>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "24 Ottobre, 08:30",
+          oggetto: "Nuova Enciclopedia Multimediale 1995 su doppio CD-ROM",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Gentile Docente,
+
+arricchisca il Suo personal computer compatibile con 30.000 voci enciclopediche, filmati video in formato AVI a 256 colori e brani sonori con tecnologia Sound Blaster! 
+
+Offerta riservata al corpo insegnante a sole 149.000 Lire con custodia rigida inclusa.`
+        }
+      ],
+
+      // CARTELLA 2: IL FASCICOLO SEGRETO DI CARONTE (7 EMAIL)
+      caronte: [
+        {
+          id: 1,
+          da: "Caronte <caronte94@ghostmail.com>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "7 giorni prima del delitto",
+          oggetto: "novembre 94",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "trofeo_insanguinato.jpg",
+          avviso: "⚠️ Messaggio ricevuto da server anonimo non tracciato (GhostMail).",
+          corpo: `Professore egregissimo... pensavi davvero che 30 anni bastassero x cancellare Valerio? Errore. Io c'ero nell'ala ovest quella notte. nel buio. ho visto la spinta, il cranio spezzato sul marmo e tu che scappi via come un vigliacco con il suo manoscritto. i tuoi nascondigli in ufficio fanno pietà. apri l'allegato e guarda cos'ho trovato.`
+        },
+        {
+          id: 2,
+          da: "Enea Corsini <e.corsini@ateneo.it>",
+          a: "Caronte <caronte94@ghostmail.com>",
+          data: "7 giorni prima del delitto (poche ore dopo)",
+          oggetto: "RE: novembre 94",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `Ignoro la sua identità e il motivo di questo scherzo di pessimo gusto. Quella stanza era vuota e la morte del mio collega fu archiviata dalle autorità come un tragico incidente. La invito a cessare queste assurde insinuazioni. Se la sua è un tentativo di estorsione di natura economica, si vergogni a citare persone a me care che non ci sono più.`
+        },
+        {
+          id: 3,
+          da: "Caronte <caronte94@ghostmail.com>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "5 giorni prima del delitto",
+          oggetto: "RE: RE: novembre 94",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "",
+          avviso: "⚠️ Messaggio ricevuto da server anonimo non tracciato (GhostMail).",
+          corpo: `non me ne frega niente dei tuoi soldi sporchi. fai schifo. la tua intera carriera è costruita sul sangue. hai tempo fino a venerdì sera. o ti dimetti davanti a tutti e confessi, o il diario e la penna finiscono dritti sulla scrivania del procuratore. a te la scelta.`
+        },
+        {
+          id: 4,
+          da: "Enea Corsini <e.corsini@ateneo.it>",
+          a: "Caronte <caronte94@ghostmail.com>",
+          data: "3 giorni prima del delitto",
+          oggetto: "RE: RE: RE: novembre 94",
+          priorita: "normale",
+          letta: true,
+          allegato_nome: "",
+          avviso: "",
+          corpo: `La invito a ragionare lucidamente su ciò che afferma poiché sono accuse gravissime.`
+        },
+        {
+          id: 5,
+          da: "Caronte <caronte94@ghostmail.com>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "1 giorno prima del delitto",
+          oggetto: "tic toc",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "",
+          avviso: "⚠️ Messaggio ricevuto da server anonimo non tracciato (GhostMail).",
+          corpo: `venerdì alle 20:00. niente proroghe, ho atteso anche troppo... prepara la lettera di dimissioni e scrivi che sei un mostro e un ladro. il tempo scade prof. tic toc`
+        },
+        {
+          id: 6,
+          da: "Caronte <caronte94@ghostmail.com>",
+          a: "Prof. Enea Corsini <e.corsini@ateneo.it>",
+          data: "La sera prima del delitto (ore 23:45)",
+          oggetto: "Fwd: Bozza per la Procura della Repubblica",
+          priorita: "alta",
+          letta: true,
+          allegato_nome: "pagina_diario_confessione.pdf",
+          avviso: "⚠️ NOTIFICA DI SPEDIZIONE AUTOMATICA PROGRAMMATA ALLE 08:00.",
+          corpo: `Inoltro il messaggio che partirà in automatico domattina alle 08:00 indirizzato alla Questura e, in copia, a tutto il corpo docenti. Guarda l'allegato. L'ho scansionato. La tua calligrafia mentre descrivi come ha smesso di respirare è inconfondibile, prof. È finita.`
+        },
+        {
+          id: 7,
+          da: "Enea Corsini <e.corsini@ateneo.it>",
+          a: "Caronte <caronte94@ghostmail.com>",
+          data: "La notte della morte (Inviata alle 01:15 AM)",
+          oggetto: "L'ultima mossa.",
+          priorita: "alta",
+          letta: false,
+          allegato_nome: "",
+          avviso: "🔴 ULTIMO MESSAGGIO INVIATO DAL COMPUTER DEL PROF. CORSINI PRIMA DEL DECESSO.",
+          corpo: `Ha vinto lei. Non conosco la sua identità, ma mi complimento per la sua inaudita ferocia. Tuttavia, c'è una soddisfazione che non le concederò mai: non mi vedrà in manette, né permetterò che il mio nome venga infangato in un'aula di tribunale. La storia del mio Ateneo mi ricorderà intatto. Scrivo queste parole mentre bevo il mio ultimo caffè. Il gioco si conclude qui, alle mie condizioni. Valerio capirebbe in fondo eravamo cari amici...`
+        }
+      ]
+    };
+
+    // Password corretta (case-insensitive)
+    const CORRECT_PASSWORD = "NOVEMBRE94";
+    let highestZIndex = 100;
+    let audioEnabled = true;
+
+    // Riferimenti DOM
+    const loginScreen = document.getElementById("login-screen");
+    const desktopScreen = document.getElementById("desktop-screen");
+    const passwordInput = document.getElementById("password-input");
+    const btnLoginOk = document.getElementById("btn-login-ok");
+    const btnLoginCancel = document.getElementById("btn-login-cancel");
+    const taskbarTasks = document.getElementById("taskbar-tasks");
+    const trayClock = document.getElementById("tray-clock");
+
+    // ========================================================
+    // SINTETIZZATORE AUDIO RETRÒ (Web Audio API)
+    // ========================================================
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      return audioCtx;
+    }
+
+    function playRetroSound(type) {
+      if (!audioEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        if (!ctx) return;
+        if (ctx.state === "suspended") ctx.resume();
+
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+
+        if (type === "click") {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(200, now + 0.03);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.03);
+          osc.start(now);
+          osc.stop(now + 0.03);
+        } else if (type === "error") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(150, now);
+          osc.frequency.setValueAtTime(120, now + 0.08);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === "startup") {
+          const freqs = [330, 440, 554, 660];
+          freqs.forEach((freq, idx) => {
+            const chordOsc = ctx.createOscillator();
+            const chordGain = ctx.createGain();
+            chordOsc.type = "sine";
+            chordOsc.frequency.setValueAtTime(freq, now + idx * 0.06);
+            chordGain.gain.setValueAtTime(0.08, now + idx * 0.06);
+            chordGain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+            chordOsc.connect(chordGain);
+            chordGain.connect(ctx.destination);
+            chordOsc.start(now + idx * 0.06);
+            chordOsc.stop(now + 1.2);
+          });
+        }
+      } catch (e) {}
+    }
+
+    // ========================================================
+    // GESTIONE AUTENTICAZIONE LOGIN
+    // ========================================================
+    function verifyPassword() {
+      const entered = passwordInput.value.trim().toUpperCase();
+      if (entered === CORRECT_PASSWORD) {
+        playRetroSound("startup");
+        loginScreen.style.display = "none";
+        desktopScreen.style.display = "block";
+      } else {
+        playRetroSound("error");
+        alert("Accesso negato");
+        passwordInput.value = "";
+        passwordInput.focus();
+      }
+    }
+
+    btnLoginOk.addEventListener("click", verifyPassword);
+
+    passwordInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        verifyPassword();
+      }
+    });
+
+    btnLoginCancel.addEventListener("click", function() {
+      playRetroSound("click");
+      passwordInput.value = "";
+      passwordInput.focus();
+    });
+
+    // ========================================================
+    // REGISTRO FINESTRE & CONTROLLI
+    // ========================================================
+    const windows = {
+      "window-excel": {
+        element: document.getElementById("window-excel"),
+        title: "Fatture_Anomale.xls",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect width="16" height="16" fill="#008000"/><text x="3" y="13" font-size="12" fill="#fff" font-weight="bold">X</text></svg>`
+      },
+      "window-notepad": {
+        element: document.getElementById("window-notepad"),
+        title: "Registro_Smanchi.txt",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect width="16" height="16" fill="#3a6ea5"/><rect x="3" y="3" width="10" height="10" fill="#fff"/></svg>`
+      },
+      "window-trash": {
+        element: document.getElementById("window-trash"),
+        title: "Cestino",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect x="3" y="4" width="10" height="11" fill="#c0c0c0" stroke="#000"/><line x1="1" y1="3" x2="15" y2="3" stroke="#000"/></svg>`
+      },
+      "window-corrupted-doc": {
+        element: document.getElementById("window-corrupted-doc"),
+        title: "Bozza_Commissione_Etica.doc",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect x="2" y="1" width="12" height="14" fill="#fff" stroke="#000"/><text x="4" y="12" font-size="10" fill="#000080" font-weight="bold">W</text></svg>`
+      },
+      "window-mail": {
+        element: document.getElementById("window-mail"),
+        title: "Posta",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect x="1" y="3" width="14" height="10" fill="#ffff99" stroke="#000"/><line x1="1" y1="3" x2="8" y2="9" stroke="#000080"/><line x1="15" y1="3" x2="8" y2="9" stroke="#000080"/></svg>`
+      },
+      "window-attachment-viewer": {
+        element: document.getElementById("window-attachment-viewer"),
+        title: "Allegato",
+        iconSvg: `<svg width="12" height="12" viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" fill="#fff" stroke="#000"/><circle cx="6" cy="6" r="2" fill="#800000"/></svg>`
+      }
+    };
+
+    function bringToFront(windowId) {
+      highestZIndex += 1;
+      const winObj = windows[windowId];
+      if (!winObj) return;
+
+      winObj.element.style.zIndex = highestZIndex;
+
+      Object.keys(windows).forEach(id => {
+        const isCurrent = (id === windowId);
+        windows[id].element.classList.toggle("active-window", isCurrent);
+        const tab = document.getElementById("tab-" + id);
+        if (tab) tab.classList.toggle("active", isCurrent);
+      });
+    }
+
+    function centerWindow(winElement) {
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const winWidth = winElement.offsetWidth || 560;
+      const winHeight = winElement.offsetHeight || 380;
+
+      const left = Math.max(10, Math.floor((screenWidth - winWidth) / 2));
+      const top = Math.max(10, Math.floor((screenHeight - winHeight - 30) / 2));
+
+      winElement.style.left = left + "px";
+      winElement.style.top = top + "px";
+    }
+
+    function openWindow(windowId) {
+      playRetroSound("click");
+      const winObj = windows[windowId];
+      if (!winObj) return;
+
+      const isHidden = (winObj.element.style.display === "" || winObj.element.style.display === "none");
+      if (isHidden) {
+        winObj.element.style.display = "block";
+        centerWindow(winObj.element);
+      }
+
+      bringToFront(windowId);
+      updateTaskbar();
+    }
+
+    function closeWindow(windowId) {
+      playRetroSound("click");
+      const winObj = windows[windowId];
+      if (!winObj) return;
+
+      winObj.element.style.display = "none";
+      winObj.element.classList.remove("active-window");
+      updateTaskbar();
+    }
+
+    document.querySelectorAll(".btn-close-window").forEach(button => {
+      button.addEventListener("click", function(e) {
+        e.stopPropagation();
+        const targetId = this.getAttribute("data-target");
+        closeWindow(targetId);
+      });
+    });
+
+    Object.keys(windows).forEach(id => {
+      windows[id].element.addEventListener("mousedown", () => bringToFront(id));
+      windows[id].element.addEventListener("touchstart", () => bringToFront(id), { passive: true });
+    });
+
+    // Mappatura icone Desktop
+    const iconMappings = [
+      { iconId: "icon-trash", windowId: "window-trash" },
+      { iconId: "icon-excel", windowId: "window-excel" },
+      { iconId: "icon-notepad", windowId: "window-notepad" },
+      { iconId: "icon-mail", windowId: "window-mail" }
+    ];
+
+    iconMappings.forEach(({ iconId, windowId }) => {
+      const iconEl = document.getElementById(iconId);
+      if (iconEl) {
+        iconEl.addEventListener("click", () => openWindow(windowId));
+        iconEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openWindow(windowId);
+          }
+        });
+      }
+    });
+
+    // Clic sul file nel Cestino
+    const trashDocRow = document.getElementById("row-trash-doc");
+    if (trashDocRow) {
+      trashDocRow.addEventListener("click", () => {
+        openWindow("window-corrupted-doc");
+      });
+    }
+
+    // Drag & Drop finestre
+    document.querySelectorAll(".window-container").forEach(win => {
+      const titleBar = win.querySelector(".title-bar");
+      if (!titleBar) return;
+
+      let isDragging = false;
+      let startX, startY, initialLeft, initialTop;
+
+      function onPointerDown(e) {
+        if (e.target.closest(".title-bar-controls")) return;
+        isDragging = true;
+        bringToFront(win.id);
+
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+        startX = clientX;
+        startY = clientY;
+        initialLeft = win.offsetLeft;
+        initialTop = win.offsetTop;
+
+        document.addEventListener("mousemove", onPointerMove);
+        document.addEventListener("mouseup", onPointerUp);
+        document.addEventListener("touchmove", onPointerMove, { passive: false });
+        document.addEventListener("touchend", onPointerUp);
+      }
+
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        if (e.type === "touchmove") e.preventDefault();
+
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+        let newLeft = initialLeft + (clientX - startX);
+        let newTop = initialTop + (clientY - startY);
+
+        newTop = Math.max(0, Math.min(window.innerHeight - 60, newTop));
+        newLeft = Math.max(-win.offsetWidth + 80, Math.min(window.innerWidth - 80, newLeft));
+
+        win.style.left = newLeft + "px";
+        win.style.top = newTop + "px";
+      }
+
+      function onPointerUp() {
+        isDragging = false;
+        document.removeEventListener("mousemove", onPointerMove);
+        document.removeEventListener("mouseup", onPointerUp);
+        document.removeEventListener("touchmove", onPointerMove);
+        document.removeEventListener("touchend", onPointerUp);
+      }
+
+      titleBar.addEventListener("mousedown", onPointerDown);
+      titleBar.addEventListener("touchstart", onPointerDown, { passive: true });
+    });
+
+    // ========================================================
+    // GESTIONE CLIENT EMAIL MULTI-CARTELLA (POSTA)
+    // ========================================================
+    let currentFolder = "inbox"; // "inbox" o "caronte"
+    let activeEmailId = null;
+
+    const oeTableBody = document.getElementById("oe-email-table-body");
+    const oeViewFrom = document.getElementById("oe-view-from");
+    const oeViewTo = document.getElementById("oe-view-to");
+    const oeViewDate = document.getElementById("oe-view-date");
+    const oeViewSubject = document.getElementById("oe-view-subject");
+    const oeViewAttachRow = document.getElementById("oe-view-attach-row");
+    const oeViewAttach = document.getElementById("oe-view-attach");
+    const oeViewWarning = document.getElementById("oe-view-warning");
+    const oeViewBody = document.getElementById("oe-view-body");
+    const badgeInbox = document.getElementById("badge-inbox");
+    const badgeCaronte = document.getElementById("badge-caronte");
+    const oeStatusText = document.getElementById("oe-status-text");
+
+    function switchFolder(folderName) {
+      playRetroSound("click");
+      currentFolder = folderName;
+
+      document.getElementById("folder-inbox").classList.toggle("active", folderName === "inbox");
+      document.getElementById("folder-caronte").classList.toggle("active", folderName === "caronte");
+
+      const emailList = EMAIL_DATABASE[currentFolder];
+      if (emailList && emailList.length > 0) {
+        selectEmail(emailList[0].id);
+      } else {
+        activeEmailId = null;
+        renderEmailList();
+      }
+    }
+
+    function renderEmailList() {
+      oeTableBody.innerHTML = "";
+      const emailList = EMAIL_DATABASE[currentFolder] || [];
+      
+      // Calcolo badge non lette
+      const unreadInbox = EMAIL_DATABASE.inbox.filter(m => !m.letta).length;
+      const unreadCaronte = EMAIL_DATABASE.caronte.filter(m => !m.letta).length;
+      badgeInbox.textContent = `(${unreadInbox})`;
+      badgeCaronte.textContent = `(${unreadCaronte})`;
+
+      emailList.forEach(mail => {
+        const tr = document.createElement("tr");
+        tr.id = "mail-row-" + mail.id;
+        if (!mail.letta) tr.classList.add("unread");
+        if (mail.id === activeEmailId) tr.classList.add("selected");
+
+        const priorityIcon = mail.priorita === "alta" ? `<span style="color:#cc0000; font-weight:bold;">!</span>` : "";
+        const envelopeIcon = mail.letta ? "📭" : "✉";
+        const attachIcon = mail.allegato_nome ? "📎" : "";
+
+        tr.innerHTML = `
+          <td style="text-align: center;">${priorityIcon}</td>
+          <td style="text-align: center;">${envelopeIcon}</td>
+          <td style="max-width: 140px; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(mail.da.split("<")[0].trim())}</td>
+          <td><strong>${escapeHtml(mail.oggetto)}</strong></td>
+          <td>${escapeHtml(mail.data)}</td>
+          <td style="text-align: center;">${attachIcon}</td>
+        `;
+
+        tr.addEventListener("click", () => {
+          selectEmail(mail.id);
+        });
+
+        oeTableBody.appendChild(tr);
+      });
+
+      oeStatusText.textContent = `Cartella [${currentFolder === 'inbox' ? 'Posta in arrivo' : 'Caronte'}]: ${emailList.length} messaggi`;
+    }
+
+    function selectEmail(id) {
+      playRetroSound("click");
+      const emailList = EMAIL_DATABASE[currentFolder] || [];
+      const mail = emailList.find(m => m.id === id);
+      if (!mail) return;
+
+      activeEmailId = id;
+      mail.letta = true; // Segna come letta al clic
+
+      oeViewFrom.textContent = mail.da;
+      oeViewTo.textContent = mail.a;
+      oeViewDate.textContent = mail.data;
+      oeViewSubject.textContent = mail.oggetto;
+
+      if (mail.allegato_nome && mail.allegato_nome.trim() !== "") {
+        oeViewAttachRow.style.display = "flex";
+        oeViewAttach.innerHTML = `📎 <strong>${mail.allegato_nome}</strong> (Fai clic per esaminare l'allegato)`;
+        oeViewAttach.onclick = () => showAttachment(mail);
+      } else {
+        oeViewAttachRow.style.display = "none";
+      }
+
+      if (mail.avviso && mail.avviso.trim() !== "") {
+        oeViewWarning.style.display = "block";
+        oeViewWarning.textContent = mail.avviso;
+      } else {
+        oeViewWarning.style.display = "none";
+      }
+
+      oeViewBody.textContent = mail.corpo;
+
+      renderEmailList();
+    }
+
+    // Visualizzatore di Allegati
+    function showAttachment(mail) {
+      playRetroSound("click");
+      const viewerTitle = document.getElementById("attach-viewer-title");
+      const viewerContent = document.getElementById("attach-viewer-content");
+
+      viewerTitle.textContent = "Allegato: " + mail.allegato_nome;
+
+      if (mail.allegato_nome === "trofeo_insanguinato.jpg") {
+        viewerContent.innerHTML = `
+          <div style="background: #222; padding: 12px; color: #fff; border: 2px solid #555; text-align: center;">
+            <div style="border: 1px solid #777; background: #111; padding: 14px; margin-bottom: 8px;">
+              <svg width="220" height="100" viewBox="0 0 220 100">
+                <rect width="220" height="100" fill="#2b2b2b"/>
+                <line x1="20" y1="50" x2="180" y2="50" stroke="#d4af37" stroke-width="12" stroke-linecap="round"/>
+                <polygon points="180,44 205,50 180,56" fill="#silver" stroke="#555"/>
+                <circle cx="160" cy="50" r="14" fill="#660000" opacity="0.85"/>
+                <path d="M150 48 Q 165 40, 175 52 T 190 50" stroke="#4a0000" stroke-width="4" fill="none"/>
+                <rect x="40" y="46" width="60" height="8" fill="#111"/>
+                <text x="45" y="53" font-family="Courier" font-size="7" fill="#fff">V. MONTI - 1994</text>
+              </svg>
+            </div>
+            <p style="font-family: Arial; font-size: 11px; color: #ffcccc; margin: 0;">
+              [REPERTO FOTOGRAFICO RITROVATO NEL DOPPIOFONDO DELLA SCRIVANIA]<br>
+              <strong>Penna stilografica personale di Valerio Monti</strong> con tracce biologiche ematiche essiccate.
+            </p>
+          </div>
+        `;
+      } else if (mail.allegato_nome === "pagina_diario_confessione.pdf") {
+        viewerContent.innerHTML = `
+          <div style="background: #fffdf0; padding: 16px; border: 1px solid #888; color: #222; text-align: left; font-family: 'Times New Roman', serif; font-size: 13px; line-height: 1.5; box-shadow: 2px 2px 8px rgba(0,0,0,0.2);">
+            <div style="border-bottom: 2px solid #8b0000; padding-bottom: 4px; margin-bottom: 10px; font-weight: bold; font-size: 14px; color: #8b0000;">
+              ESTRATTO SCANSIONATO — DIARIO PRIVATO (NOVEMBRE 1994)
+            </div>
+            <p style="font-style: italic; color: #444;">
+              "...non volevo spingerlo. È stato un istante. Eravamo in cima alla scala a chiocciola dell'Ala Ovest, Valerio teneva stretto quel manoscritto. Continuava a ripetere che il rettore avrebbe dato la cattedra a lui. L'ho strattonato... è scivolato all'indietro. Il tonfo sul marmo non lo dimenticherò mai fino al giorno della mia morte. Non respirava già più.<br><br>
+              Ho preso il manoscritto dalle sue mani fredde. Ho ripulito i gradini con il mio fazzoletto. Nessuno sospetterà mai di me. Ma la sua penna... non sono riuscito a gettarla nel fiume. L'ho nascosta qui nel mio cassetto segreto come il mio eterno castigo..."
+            </p>
+            <div style="margin-top: 10px; text-align: right; font-weight: bold; font-family: 'Brush Script MT', cursive; font-size: 16px;">
+              — Enea Corsini, 14 Novembre 1994
+            </div>
+          </div>
+        `;
+      }
+
+      openWindow("window-attachment-viewer");
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Inizializza client email aprendo la Posta in Arrivo generale
+    switchFolder("inbox");
+
+    // ========================================================
+    // TASKBAR, OROLOGIO & SWITCH RETRÒ
+    // ========================================================
+    function updateTaskbar() {
+      taskbarTasks.innerHTML = "";
+
+      Object.keys(windows).forEach(id => {
+        const win = windows[id];
+        if (win.element.style.display === "block") {
+          const tab = document.createElement("button");
+          tab.id = "tab-" + id;
+          tab.className = "taskbar-tab" + (win.element.classList.contains("active-window") ? " active" : "");
+          tab.innerHTML = `${win.iconSvg}<span>${win.title}</span>`;
+          tab.addEventListener("click", () => bringToFront(id));
+          taskbarTasks.appendChild(tab);
+        }
+      });
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      trayClock.textContent = `${hours}:${minutes}`;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Toggle Tubo Catodico (CRT)
+    const toggleCrtBtn = document.getElementById("toggle-crt-btn");
+    toggleCrtBtn.addEventListener("click", function() {
+      playRetroSound("click");
+      document.body.classList.toggle("crt-active");
+      const isCrt = document.body.classList.contains("crt-active");
+      toggleCrtBtn.textContent = isCrt ? "📺 CRT: ON" : "📺 CRT: OFF";
+    });
+
+    // Toggle Suoni Sintetizzati
+    const toggleAudioBtn = document.getElementById("toggle-audio-btn");
+    toggleAudioBtn.addEventListener("click", function() {
+      audioEnabled = !audioEnabled;
+      toggleAudioBtn.textContent = audioEnabled ? "🔊 Suoni: ON" : "🔇 Suoni: OFF";
+      if (audioEnabled) playRetroSound("click");
+    });
+
+    document.getElementById("start-btn").addEventListener("click", function() {
+      playRetroSound("click");
+      alert("Sistema Windows 98 - Postazione Riservata Dipartimento Studi Storici.\nNessun programma aggiuntivo autorizzato.");
+    });
+  </script>
+</body>
+</html>
