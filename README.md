@@ -66,3 +66,4 @@ I giocatori hanno il compito di ispezionare il sistema operativo del professore 
 ---
 
 *Progetto sviluppato come Web Application statica indipendente in un unico file `index.html`, ospitabile direttamente su GitHub Pages senza dipendenze backend.*
+
